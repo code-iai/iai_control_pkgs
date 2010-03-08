@@ -1,0 +1,3 @@
+<library path="lib/libias_mechanism_controllers">
+  <class name="KimpFakeOdometry" type="controller::KimpFakeOdometry" base_class_type="pr2_controller_interface::Controller" />  
+</library>
