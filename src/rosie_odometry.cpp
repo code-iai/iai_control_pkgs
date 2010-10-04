@@ -35,22 +35,22 @@
  * Author: Sachin Chitta and Matthew Piccoli
  */
 
-#include "ias_mechanism_controllers/kimp_fake_odometry.h"
+#include "ias_mechanism_controllers/rosie_odometry.h"
 #include "pluginlib/class_list_macros.h"
 
-PLUGINLIB_REGISTER_CLASS(KimpFakeOdometry, controller::KimpFakeOdometry, pr2_controller_interface::Controller)
+PLUGINLIB_REGISTER_CLASS(RosieOdometry, controller::RosieOdometry, pr2_controller_interface::Controller)
 
 namespace controller {
 
-KimpFakeOdometry::KimpFakeOdometry()
+RosieOdometry::RosieOdometry()
 {
 }
 
-KimpFakeOdometry::~KimpFakeOdometry()
+RosieOdometry::~RosieOdometry()
 {
 }
 
-bool KimpFakeOdometry::init(pr2_mechanism_model::RobotState *robot_state, ros::NodeHandle &node)
+bool RosieOdometry::init(pr2_mechanism_model::RobotState *robot_state, ros::NodeHandle &node)
 {
   node_ = node;
   node.param("odometer/distance", odometer_distance_, 0.0);
@@ -98,20 +98,20 @@ bool KimpFakeOdometry::init(pr2_mechanism_model::RobotState *robot_state, ros::N
   return true;
 }
 
-bool KimpFakeOdometry::initXml(pr2_mechanism_model::RobotState *robot_state, TiXmlElement *config)
+bool RosieOdometry::initXml(pr2_mechanism_model::RobotState *robot_state, TiXmlElement *config)
 {
   ros::NodeHandle n(config->Attribute("name"));
   return init(robot_state,n);
 }
 
-void KimpFakeOdometry::starting()
+void RosieOdometry::starting()
 {
   current_time_ = base_kin_.robot_state_->getTime();
   last_time_ = base_kin_.robot_state_->getTime();
   last_publish_time_ = base_kin_.robot_state_->getTime();
 }
 
-void KimpFakeOdometry::update()
+void RosieOdometry::update()
 {
   current_time_ = base_kin_.robot_state_->getTime();
   updateOdometry();
@@ -119,7 +119,7 @@ void KimpFakeOdometry::update()
   last_time_ = current_time_;
 }
 
-void KimpFakeOdometry::updateOdometry()
+void RosieOdometry::updateOdometry()
 {
   double dt = (current_time_ - last_time_).toSec();
   double theta = odom_.z;
@@ -140,14 +140,14 @@ void KimpFakeOdometry::updateOdometry()
   odometer_angle_ += fabs(odom_delta_th);
 }
 
-void KimpFakeOdometry::getOdometry(geometry_msgs::Point &odom, geometry_msgs::Twist &odom_vel)
+void RosieOdometry::getOdometry(geometry_msgs::Point &odom, geometry_msgs::Twist &odom_vel)
 {
   odom = odom_;
   odom_vel = odom_vel_;
   return;
 }
 
-void KimpFakeOdometry::getOdometryMessage(nav_msgs::Odometry &msg)
+void RosieOdometry::getOdometryMessage(nav_msgs::Odometry &msg)
 {
   msg.header.frame_id = odom_frame_;
   msg.header.stamp = current_time_;
@@ -168,7 +168,7 @@ void KimpFakeOdometry::getOdometryMessage(nav_msgs::Odometry &msg)
   populateCovariance(odometry_residual_max_,msg);
 }
 
-void KimpFakeOdometry::populateCovariance(double residual, nav_msgs::Odometry &msg)
+void RosieOdometry::populateCovariance(double residual, nav_msgs::Odometry &msg)
 {
   // multiplier to scale covariance
   // the smaller the residual, the more reliable odom
@@ -206,7 +206,7 @@ void KimpFakeOdometry::populateCovariance(double residual, nav_msgs::Odometry &m
 }
 
 
-void KimpFakeOdometry::getOdometry(double &x, double &y, double &yaw, double &vx, double &vy, double &vw)
+void RosieOdometry::getOdometry(double &x, double &y, double &yaw, double &vx, double &vy, double &vw)
 {
   x = odom_.x;
   y = odom_.y;
@@ -216,7 +216,7 @@ void KimpFakeOdometry::getOdometry(double &x, double &y, double &yaw, double &vx
   vw = odom_vel_.angular.z;
 }
 
-void KimpFakeOdometry::computeBaseVelocity()
+void RosieOdometry::computeBaseVelocity()
 {
   double steer_angle, wheel_speed, costh, sinth;
   geometry_msgs::Twist caster_local_velocity;
@@ -250,7 +250,7 @@ void KimpFakeOdometry::computeBaseVelocity()
   odom_vel_.angular.z = cbv_soln_(2, 0);
 }
 
-double KimpFakeOdometry::getCorrectedWheelSpeed(int index)
+double RosieOdometry::getCorrectedWheelSpeed(int index)
 {
   double wheel_speed;
   geometry_msgs::Twist caster_local_vel;
@@ -261,7 +261,7 @@ double KimpFakeOdometry::getCorrectedWheelSpeed(int index)
   return wheel_speed;
 }
 
-Eigen::MatrixXf KimpFakeOdometry::iterativeLeastSquares(Eigen::MatrixXf lhs, Eigen::MatrixXf rhs, std::string weight_type, int max_iter)
+Eigen::MatrixXf RosieOdometry::iterativeLeastSquares(Eigen::MatrixXf lhs, Eigen::MatrixXf rhs, std::string weight_type, int max_iter)
 {
   weight_matrix_ = Eigen::MatrixXf::Identity(16, 16);
   for(int i = 0; i < max_iter; i++)
@@ -292,7 +292,7 @@ Eigen::MatrixXf KimpFakeOdometry::iterativeLeastSquares(Eigen::MatrixXf lhs, Eig
   return fit_soln_;
 }
 
-Eigen::MatrixXf KimpFakeOdometry::findWeightMatrix(Eigen::MatrixXf residual, std::string weight_type)
+Eigen::MatrixXf RosieOdometry::findWeightMatrix(Eigen::MatrixXf residual, std::string weight_type)
 {
   Eigen::MatrixXf w_fit = Eigen::MatrixXf::Identity(16, 16);
   double epsilon = 0;
@@ -337,7 +337,7 @@ Eigen::MatrixXf KimpFakeOdometry::findWeightMatrix(Eigen::MatrixXf residual, std
   return w_fit;
 }
 
-void KimpFakeOdometry::publish()
+void RosieOdometry::publish()
 {
   if(fabs((last_publish_time_ - current_time_).toSec()) < expected_publish_time_)
     return;

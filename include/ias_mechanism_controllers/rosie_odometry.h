@@ -57,19 +57,19 @@ namespace controller
   /*! \class
   \brief This class inherits from Controller and computes the base odometry
   */
-  class KimpFakeOdometry : public pr2_controller_interface::Controller
+  class RosieOdometry : public pr2_controller_interface::Controller
   {
     public:
 
     /*!
     * \brief Constructor for the odometry
     */
-    KimpFakeOdometry();
+    RosieOdometry();
 
     /*!
     * \brief Destructor for the odometry
     */
-    ~KimpFakeOdometry();
+    ~RosieOdometry();
 
     /*!
     * \brief Loads Odometry's information from the xml description file and param server

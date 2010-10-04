@@ -10,6 +10,6 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_genmsg()
 #gensrv()
 
-rosbuild_add_library(ias_mechanism_controllers src/kimp_fake_odometry.cpp)
+rosbuild_add_library(ias_mechanism_controllers src/rosie_odometry.cpp)
 rosbuild_add_boost_directories()
 rosbuild_link_boost(ias_mechanism_controllers thread)
