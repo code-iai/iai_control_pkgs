@@ -126,7 +126,7 @@ void LoopbackControllerManager::init()
   ros::NodeHandle private_node = ros::NodeHandle("~");
   private_node.param("dt", dt_, 0.01);
   private_node.param("damping", damping_, 0.1);
-  private_node.param("mass", damping_, 0.1);
+  private_node.param("mass", mass_, 0.1);
 
   desired_angles_sub_ = private_node.subscribe("desired_joints", 1, &LoopbackControllerManager::jointCallback, this);
 
