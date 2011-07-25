@@ -1,0 +1,26 @@
+<package>
+  <description brief="Multi Velocity Mechanism Controller">
+  </description>
+  <author>Ingo Kresse</author>
+  <license>BSD</license>
+
+  <depend package="roscpp" />
+  <depend package="filters" />
+  <depend package="pluginlib" />
+
+  <depend package="std_msgs" />
+
+  <depend package="pr2_controllers_msgs" />
+  <depend package="pr2_controller_interface" />
+  <depend package="pr2_mechanism_model" />
+  <depend package="control_toolbox" />
+  <depend package="realtime_tools" />
+  
+  <export>
+    <cpp cflags="-I${prefix}/include -I${prefix}/msg/cpp -I${prefix}/srv/cpp"
+	 lflags="-Wl,-rpath,${prefix}/lib/ -L${prefix}/lib -lrobot_mechanism_controllers" />
+    <pr2_controller_interface plugin="${prefix}/controller_plugins.xml" />
+  </export>
+
+</package>
+
