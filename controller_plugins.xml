@@ -1,3 +1,4 @@
 <library path="lib/libias_mechanism_controllers">
-  <class name="RosieOdometry" type="controller::RosieOdometry" base_class_type="pr2_controller_interface::Controller" />  
+  <class name="ias_mechanism_controllers/RosieOdometry" type="controller::RosieOdometry" base_class_type="pr2_controller_interface::Controller" />
+  <class name="ias_mechanism_controllers/MultiJointVelocityController" type="controller::MultiJointVelocityController" base_class_type="pr2_controller_interface::Controller" />
 </library>

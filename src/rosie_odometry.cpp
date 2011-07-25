@@ -38,7 +38,7 @@
 #include "ias_mechanism_controllers/rosie_odometry.h"
 #include "pluginlib/class_list_macros.h"
 
-PLUGINLIB_REGISTER_CLASS(RosieOdometry, controller::RosieOdometry, pr2_controller_interface::Controller)
+PLUGINLIB_DECLARE_CLASS(ias_mechanism_controllers, RosieOdometry, controller::RosieOdometry, pr2_controller_interface::Controller)
 
 namespace controller {
 
@@ -93,7 +93,7 @@ bool RosieOdometry::init(pr2_mechanism_model::RobotState *robot_state, ros::Node
 
   odometry_publisher_.reset(new realtime_tools::RealtimePublisher<nav_msgs::Odometry>(node_,odom_frame_, 1));
   transform_publisher_.reset(new realtime_tools::RealtimePublisher<tf::tfMessage>(node_,"/tf", 1));
-  transform_publisher_->msg_.set_transforms_size(1);
+  transform_publisher_->msg_.transforms.resize(1);
 
   return true;
 }
