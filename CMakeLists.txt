@@ -4,6 +4,9 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
 rosbuild_init(rosie_controller_manager)
 
+#set the default path for built executables to the "bin" directory
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+
 #rosbuild_genmsg()
 #rosbuild_gensrv()
 
