@@ -152,7 +152,10 @@ void LoopbackControllerManager::init()
       valueList = jointLists["position"];
       for (int index = 0; index < nameList.size(); index++)
       {
-        state_->getJointState((string) nameList[index])->position_ = (double) valueList[index];
+        pr2_mechanism_model::JointState *s =
+          state_->getJointState((string) nameList[index]);
+        if(s)
+          s->position_ = (double) valueList[index];
       }
     }
   }
