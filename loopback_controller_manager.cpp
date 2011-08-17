@@ -165,6 +165,33 @@ void LoopbackControllerManager::init()
     ROS_WARN("Error parsing initial joint positions: %s", e.getMessage().c_str());
   }
 
+
+  // adjust joint positions to not violate soft limits
+  for(unsigned int i = 0; i < state_->joint_states_.size(); i++)
+  {
+    pr2_mechanism_model::JointState &s = state_->joint_states_[i];
+    const boost::shared_ptr<urdf::JointSafety> safety = s.joint_->safety;
+
+    if(safety)
+    {
+      double lower = safety->soft_lower_limit;
+      double upper = safety->soft_upper_limit;
+      if(lower != 0.0 || upper != 0.0)
+      {
+        double margin = (upper - lower) * 0.001;
+        lower += margin;
+        upper -= margin;
+        double pos_old = s.position_;
+
+        s.position_ = (s.position_ < lower) ? lower : s.position_;
+        s.position_ = (s.position_ > upper) ? upper : s.position_;
+
+        if(s.position_ != pos_old)
+          ROS_INFO("adjusted joint %s to %f", s.joint_->name.c_str(), s.position_);
+      }
+    }
+  }
+
   hw_.current_time_ = ros::Time::now();
 
   // pr2_etherCAT calls ros::spin(), we'll thread out one spinner here to mimic that
