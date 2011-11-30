@@ -36,7 +36,8 @@
    This file is copied from pr2_mechanism_controllers.
 **/
 
-#include <Eigen/Array>
+#define EIGEN2_SUPPORT
+
 #include <Eigen/SVD>
 #include <nav_msgs/Odometry.h>
 #include <realtime_tools/realtime_publisher.h>
