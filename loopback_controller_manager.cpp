@@ -112,6 +112,7 @@ void LoopbackControllerManager::jointCallback(const sensor_msgs::JointState::Con
 
   for(unsigned int i=0; i < joints->name.size(); ++i)
   {
+	ROS_ERROR("Fix me: getJointState(...)->position_ is read-only.");
     state_->getJointState(joints->name[i])->position_ = joints->position[i];
   }
 
