@@ -37,7 +37,7 @@
 #include "pr2_hardware_interface/hardware_interface.h"
 #include "pr2_controller_manager/controller_manager.h"
 #include "pr2_mechanism_model/robot.h"
-#include "tinyxml/tinyxml.h"
+#include "tinyxml.h"
 
 #include <XmlRpcValue.h>
 #include <XmlRpcException.h>
