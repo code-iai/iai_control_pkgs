@@ -9,14 +9,13 @@ r_arm_vel:
     - r_wrist_flex_joint
     - r_wrist_roll_joint
   gains:
-    r_shoulder_pan_joint:   {p: 4, d: 0.0}
-    r_shoulder_lift_joint:  {p: 4, d: 0.0}
-    r_upper_arm_roll_joint: {p: 4, d: 0.0}
-    r_elbow_flex_joint:     {p: 4, d: 0.0}
-    r_forearm_roll_joint:   {p: 4, d: 0.0}
-    r_wrist_flex_joint:     {p: 4, d: 0.0}
-    r_wrist_roll_joint:     {p: 4, d: 0.0}
-
+    r_shoulder_pan_joint:   {p: 18.0, i: 40.67, d: 0.0, i_clamp: 100.0}
+    r_shoulder_lift_joint:  {p: 24.0, i: 56.67, d: 0.0, i_clamp: 100.0}
+    r_upper_arm_roll_joint: {p: 6.0, i: 42.9, d: 0.0, i_clamp: 100.0}
+    r_elbow_flex_joint:     {p: 6.0, i: 20.0, d: 0.0, i_clamp: 100.0}
+    r_forearm_roll_joint:   {p: 6.0, i: 15.0, d: 0.0, i_clamp: 100.0}
+    r_wrist_flex_joint:     {p: 4.0, i: 25.0, d: 0.0, i_clamp: 100.0}
+    r_wrist_roll_joint:     {p: 4.0, i: 25.0, d: 0.0, i_clamp: 100.0}
 
 l_arm_vel:
   type: "ias_mechanism_controllers/MultiJointVelocityController"
@@ -29,11 +28,11 @@ l_arm_vel:
     - l_wrist_flex_joint
     - l_wrist_roll_joint
   gains:
-    l_shoulder_pan_joint:   {p: 4, d: 0.0}
-    l_shoulder_lift_joint:  {p: 4, d: 0.0}
-    l_upper_arm_roll_joint: {p: 4, d: 0.0}
-    l_elbow_flex_joint:     {p: 4, d: 0.0}
-    l_forearm_roll_joint:   {p: 4, d: 0.0}
-    l_wrist_flex_joint:     {p: 4, d: 0.0}
-    l_wrist_roll_joint:     {p: 4, d: 0.0}
+    l_shoulder_pan_joint:   {p: 18.0, i: 40.67, d: 0.0, i_clamp: 100.0}
+    l_shoulder_lift_joint:  {p: 24.0, i: 56.67, d: 0.0, i_clamp: 100.0}
+    l_upper_arm_roll_joint: {p: 6.0, i: 42.9, d: 0.0, i_clamp: 100.0}
+    l_elbow_flex_joint:     {p: 6.0, i: 20.0, d: 0.0, i_clamp: 100.0}
+    l_forearm_roll_joint:   {p: 6.0, i: 15.0, d: 0.0, i_clamp: 100.0}
+    l_wrist_flex_joint:     {p: 4.0, i: 25.0, d: 0.0, i_clamp: 100.0}
+    l_wrist_roll_joint:     {p: 4.0, i: 25.0, d: 0.0, i_clamp: 100.0}
 
