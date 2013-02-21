@@ -52,6 +52,10 @@
 #include <std_msgs/Float64MultiArray.h>
 #include <pr2_controllers_msgs/JointTrajectoryControllerState.h>
 
+//For ros::time
+#include <ros/ros.h>
+
+
 
 namespace controller {
 
@@ -91,6 +95,8 @@ private:
 
   boost::mutex command_mutex_;
   std::vector<double> command_;
+  ros::Time watchdog_time_;
+  ros::Duration watchdog_period;
 };
 
 }

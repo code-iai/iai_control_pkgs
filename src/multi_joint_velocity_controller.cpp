@@ -42,7 +42,7 @@ namespace controller {
 
 
 MultiJointVelocityController::MultiJointVelocityController()
-  : loop_count_(0), robot_(NULL)
+  : loop_count_(0), robot_(NULL), watchdog_period(0.1)
 {
 }
 
@@ -165,6 +165,8 @@ void MultiJointVelocityController::update()
   guard.unlock();
 
   double error[joints_.size()];
+
+
   for (size_t i = 0; i < joints_.size(); ++i)
   {
     error[i] = joints_[i]->velocity_ - command[i];
@@ -174,6 +176,15 @@ void MultiJointVelocityController::update()
       output_filters_[i]->update(effort, effort_filtered);
     joints_[i]->commanded_effort_ += effort_filtered;
   }
+
+  if(time - watchdog_time_ > watchdog_period) {
+	  for (size_t i = 0; i < joints_.size(); ++i) {
+		  joints_[i]->commanded_effort_ = 0.0;
+	  }
+
+  }
+
+
 
 
   // ------ State publishing
@@ -202,6 +213,8 @@ void MultiJointVelocityController::commandCB(const std_msgs::Float64MultiArray::
   boost::mutex::scoped_lock guard(command_mutex_);
   for(unsigned int i=0; i < command_.size(); ++i)
     command_[i] = msg->data[i];
+
+  watchdog_time_ = robot_->getTime();
 }
 
 
