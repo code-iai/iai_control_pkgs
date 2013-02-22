@@ -135,6 +135,7 @@ bool MultiJointVelocityController::init(pr2_mechanism_model::RobotState *robot, 
   controller_state_publisher_->msg_.actual.positions.resize(joints_.size());
   controller_state_publisher_->msg_.actual.velocities.resize(joints_.size());
   controller_state_publisher_->msg_.error.velocities.resize(joints_.size());
+  controller_state_publisher_->msg_.error.accelerations.resize(joints_.size());
   controller_state_publisher_->unlock();
 
 
@@ -144,6 +145,7 @@ bool MultiJointVelocityController::init(pr2_mechanism_model::RobotState *robot, 
 void MultiJointVelocityController::starting()
 {
   last_time_ = robot_->getTime();
+  watchdog_time_ = robot_->getTime();
 
   for (size_t i = 0; i < pids_.size(); ++i)
     pids_[i].reset();
@@ -164,6 +166,7 @@ void MultiJointVelocityController::update()
     command[i] = command_[i];
   guard.unlock();
 
+
   double error[joints_.size()];
 
 
@@ -177,14 +180,23 @@ void MultiJointVelocityController::update()
     joints_[i]->commanded_effort_ += effort_filtered;
   }
 
-  if(time - watchdog_time_ > watchdog_period) {
+
+  bool watchdog_active = ( (time - watchdog_time_) > watchdog_period );
+  if (watchdog_active) {
+
+	  //turn the arms off (all efforts to zero)
 	  for (size_t i = 0; i < joints_.size(); ++i) {
 		  joints_[i]->commanded_effort_ = 0.0;
 	  }
 
+	  //reset the state (mainly the integral accumulator) of the PIDs
+	  for (size_t i = 0; i < pids_.size(); ++i)
+	    pids_[i].reset();
+
+	  //Reset the stored last command
+	  for(unsigned int i=0; i < command_.size(); ++i)
+	  	    command_[i] = 0.0;
   }
-
-
 
 
   // ------ State publishing
@@ -200,6 +212,13 @@ void MultiJointVelocityController::update()
         controller_state_publisher_->msg_.actual.positions[j] = joints_[j]->position_;
         controller_state_publisher_->msg_.actual.velocities[j] = joints_[j]->velocity_;
         controller_state_publisher_->msg_.error.velocities[j] = error[j];
+        if (watchdog_active) {
+          controller_state_publisher_->msg_.error.accelerations[j] = -1.0;
+   
+        } else {
+          controller_state_publisher_->msg_.error.accelerations[j] = 1.0;
+
+        }
       }
       controller_state_publisher_->unlockAndPublish();
     }
