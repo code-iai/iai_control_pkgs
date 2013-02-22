@@ -5,15 +5,15 @@ r_arm_cart_twist:
     ff_trans: 0.0
     fb_trans:
       p: 20.0
-      i: 0.5
+      i: 30.0
       d: 0.0
-      i_clamp: 1.0
+      i_clamp: 20.0
     ff_rot: 0.0
     fb_rot:
-      p: 0.5
-      i: 0.1
+      p: 1.0
+      i: 2.0
       d: 0.0
-      i_clamp: 0.2
+      i_clamp: 5.0
 l_arm_cart_twist:
     type: robot_mechanism_controllers/CartesianTwistController
     root_name: torso_lift_link
@@ -21,13 +21,13 @@ l_arm_cart_twist:
     ff_trans: 0.0
     fb_trans:    
       p: 20.0
-      i: 0.5
+      i: 30.0
       d: 0.0
-      i_clamp: 1.0
+      i_clamp: 20.0
     ff_rot: 0.0
     fb_rot:
-      p: 0.5
-      i: 0.1
+      p: 1.0
+      i: 2.0
       d: 0.0
-      i_clamp: 0.2
+      i_clamp: 5.0
 
