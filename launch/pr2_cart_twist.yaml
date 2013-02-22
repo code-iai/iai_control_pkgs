@@ -1,0 +1,10 @@
+r_arm_cart_twist:
+    type: CartesianTwistController
+    root_name: torso_lift_link
+    tip_name: r_gripper_tool_frame
+
+l_arm_cart_twist:
+    type: CartesianTwistController
+    root_name: torso_lift_link
+    tip_name: l_gripper_tool_frame
+
