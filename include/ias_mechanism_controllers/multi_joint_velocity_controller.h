@@ -52,9 +52,6 @@
 #include <std_msgs/Float64MultiArray.h>
 #include <pr2_controllers_msgs/JointTrajectoryControllerState.h>
 
-//For ros::time
-#include <ros/ros.h>
-
 
 
 namespace controller {

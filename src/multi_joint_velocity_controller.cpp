@@ -135,7 +135,6 @@ bool MultiJointVelocityController::init(pr2_mechanism_model::RobotState *robot, 
   controller_state_publisher_->msg_.actual.positions.resize(joints_.size());
   controller_state_publisher_->msg_.actual.velocities.resize(joints_.size());
   controller_state_publisher_->msg_.error.velocities.resize(joints_.size());
-  controller_state_publisher_->msg_.error.accelerations.resize(joints_.size());
   controller_state_publisher_->unlock();
 
 
@@ -147,10 +146,11 @@ void MultiJointVelocityController::starting()
   last_time_ = robot_->getTime();
   watchdog_time_ = robot_->getTime();
 
+
+  //Clear the state of the PIDs
   for (size_t i = 0; i < pids_.size(); ++i)
     pids_[i].reset();
 
-  // Creates a "hold current position" trajectory.
 }
 
 void MultiJointVelocityController::update()
@@ -212,13 +212,6 @@ void MultiJointVelocityController::update()
         controller_state_publisher_->msg_.actual.positions[j] = joints_[j]->position_;
         controller_state_publisher_->msg_.actual.velocities[j] = joints_[j]->velocity_;
         controller_state_publisher_->msg_.error.velocities[j] = error[j];
-        if (watchdog_active) {
-          controller_state_publisher_->msg_.error.accelerations[j] = -1.0;
-   
-        } else {
-          controller_state_publisher_->msg_.error.accelerations[j] = 1.0;
-
-        }
       }
       controller_state_publisher_->unlockAndPublish();
     }
