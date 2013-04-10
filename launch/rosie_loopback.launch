@@ -1,0 +1,29 @@
+<launch>
+
+  <param name="/use_sim_time" value="false" />
+
+  <include file="$(find rosie_description)/launch/upload_rosie.launch" />
+
+  <!-- start loopback controller manager --> 
+  <node name="loopback_controllers" type="loopback_controller_manager" pkg="loopback_controller_manager" output="screen"> 
+    <param name="dt" value="0.002" />
+    <param name="damping" value="1.0" />
+  </node>
+
+  <!-- start joint_states to tf transformer -->
+  <node pkg="robot_state_chain_publisher" type="state_chain_publisher" name="robot_state_publisher" output="log" />
+
+
+<!--  <node name="unspawn_arms"
+        pkg="pr2_controller_manager" type="unspawner"
+        args="l_arm_controller r_arm_controller" />
+-->
+
+  <rosparam command="load" file="$(find ias_mechanism_controllers)/launch/rosie_multi_vel.yaml"/>
+
+
+  <node name="spawn_vel"
+        pkg="pr2_controller_manager" type="spawner"
+        args="l_arm_vel r_arm_vel" />
+
+</launch>
