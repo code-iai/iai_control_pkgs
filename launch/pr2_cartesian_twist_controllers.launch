@@ -1,11 +1,12 @@
 <launch>
+  <include file="$(find loopback_controller_manager)/launch/pr2_loopback_no_controllers.launch"7>
 
-  <param name="/use_sim_time" value="false" />
+  <!--param name="/use_sim_time" value="false" /-->
 
-  <include file="$(find pr2_description)/robots/upload_pr2.launch" />
+  <!--include file="$(find pr2_description)/robots/upload_pr2.launch" /-->
 
   <!-- start loopback controller manager --> 
-  <node name="loopback_controllers" type="loopback_controller_manager" pkg="loopback_controller_manager" output="screen"> 
+  <!--node name="loopback_controllers" type="loopback_controller_manager" pkg="loopback_controller_manager" output="screen"> 
     <param name="dt" value="0.003" />
     <param name="damping" value="1.0" />
     <rosparam ns="joints">
@@ -13,7 +14,7 @@
       position: [0.012, 0.20, 0.027, -0.40, -0.66, 0.027, -0.40, -0.66]
 
     </rosparam>
-  </node>
+  </node-->
 
   <!-- start joint_states to tf transformer -->
   <node pkg="robot_state_chain_publisher" type="state_chain_publisher" name="robot_state_publisher" output="log" />
