@@ -12,5 +12,6 @@
   <depend package="pr2_controller_manager" />
   <depend package="pr2_mechanism_model" />
   <depend package="urdf" />
+  <depend package="robot_state_chain_publisher"/>
 
 </package>
