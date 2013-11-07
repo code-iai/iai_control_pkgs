@@ -1,0 +1,17 @@
+<launch>
+  <!-- some global variable -->
+  <param name="/use_sim_time" value="false"/>
+
+  <!-- load up pr2-udrf to the parameter server -->
+  <include file="$(find pr2_description)/robots/upload_pr2.launch"/>
+
+  <!-- start loopback controller manager -->
+  <node name="loopback_controllers" type="loopback_controller_manager" pkg="loopback_controller_manager" output="screen">
+    <param name="dt" value="0.003" />
+    <param name="damping" value="1.0" />
+  </node>
+
+  <!-- start joint_states to tf transformer -->
+  <node pkg="robot_state_chain_publisher" type="state_chain_publisher" name="robot_state_publisher" output="log" />
+
+</launch>
