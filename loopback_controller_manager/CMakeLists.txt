@@ -1,20 +1,44 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
-#set(ROS_BUILD_TYPE RelWithDeb)
+cmake_minimum_required(VERSION 2.8.3)
+project(loopback_controller_manager)
 
-rosbuild_init(rosie_controller_manager)
+find_package(catkin REQUIRED COMPONENTS 
+  roscpp 
+  urdf 
+  robot_mechanism_controllers
+  pr2_hardware_interface
+  pr2_controller_manager
+  pr2_mechanism_model
+  robot_state_publisher
+  hardware_interface)
 
-#set the default path for built executables to the "bin" directory
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+find_package(Boost REQUIRED COMPONENTS thread)
+find_package(orocos_kdl REQUIRED)
+find_package(Eigen REQUIRED)
 
-#rosbuild_genmsg()
-#rosbuild_gensrv()
+catkin_package(
+  DEPENDS Boost Eigen orocos_kdl)
 
-#add_definitions(-fPIC)
+include_directories(
+  include
+  ${catkin_INCLUDE_DIRS}
+  ${orocos_kdl_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS})
+include_directories(
+  SYSTEM
+  ${EIGEN_INCLUDE_DIRS})
 
-rosbuild_add_boost_directories()
+add_executable(${PROJECT_NAME} loopback_controller_manager.cpp)
 
-rosbuild_add_executable(loopback_controller_manager loopback_controller_manager.cpp)
-rosbuild_link_boost(loopback_controller_manager thread)
+target_link_libraries(${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+  ${orocos_kdl_LIBRARIES})
 
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS
+  -L${orocos_kdl_LIBRARY_DIRS})
 
+install(TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
