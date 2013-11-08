@@ -1,4 +1,5 @@
 <launch>
+
   <!-- some global variable -->
   <param name="/use_sim_time" value="false"/>
 
@@ -12,6 +13,6 @@
   </node>
 
   <!-- start joint_states to tf transformer -->
-  <node pkg="robot_state_chain_publisher" type="state_chain_publisher" name="robot_state_publisher" output="log" />
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="log" />
 
 </launch>
