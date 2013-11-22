@@ -1,18 +1,40 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(iai_robot_mechanism_controllers)
 
-set(ROS_BUILD_TYPE Release)
+find_package(catkin REQUIRED COMPONENTS 
+  pluginlib
+  roscpp
+  std_msgs
+  pr2_controller_interface
+  pr2_mechanism_model
+  pr2_mechanism_controllers
+  pr2_mechanism_msgs
+  nav_msgs
+  filters
+  control_toolbox
+  realtime_tools
+  pr2_controller_manager
+  message_runtime)
 
-rosbuild_init()
+find_package(Boost REQUIRED COMPONENTS thread)
 
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+catkin_package(
+  INCLUDE_DIRS include
+  LIBRARIES ${PROJECT_NAME}
+#  CATKIN_DEPENDS TODO
+#  DEPENDS Boost TODO
+)
 
-#rosbuild_genmsg()
-#gensrv()
+include_directories(
+  include
+  ${catkin_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS})
+ 
+add_library(${PROJECT_NAME}
+  src/rosie_odometry.cpp
+  src/multi_joint_velocity_controller.cpp)
 
-rosbuild_add_library(iai_robot_mechanism_controllers src/rosie_odometry.cpp
-                                               src/multi_joint_velocity_controller.cpp)
-rosbuild_add_boost_directories()
-rosbuild_link_boost(iai_robot_mechanism_controllers thread)
+target_link_libraries(${PROJECT_NAME}
+  ${catkin_LIBRARIES})
 
-
+# TODO (install targets)
