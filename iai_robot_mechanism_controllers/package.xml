@@ -1,27 +1,53 @@
 <package>
-  <description brief="iai_robot_mechanism_controllers">
+  <name>iai_robot_mechanism_controllers</name>
+  <version>0.1.0</version>
+  <description>
     Mechanism controllers for iai related stuff
     (Odometry publisher for simulated ROSIE and a
     multi-joint velocity controller.)
   </description>
-  <author>Lorenz Moesenlechner, Ingo Kresse</author>
+
+  <author email="moesenle@cs.tum.edu">Lorenz Moesenlechner</author>
+  <author email="kresse@in.tum.de">Ingo Kresse</author>
+
+  <maintainer email="georg.bartels@cs.uni-bremen.de">Georg Bartels</maintainer>
+
   <license>BSD</license>
-  <review status="unreviewed" notes=""/>
 
-  <depend package="pluginlib" />
+  <!-- <url type="website">http://ros.org/wiki/fccl_control</url> -->
+  <url type="bugtracker">https://github.com/code-iai/iai_robot_mechanism_controllers/issues</url>
+  <url type="repository">https://github.com/code-iai/iai_robot_mechanism_controllers</url>
 
-  <depend package="roscpp" />
-  <depend package="std_msgs" />
-  <depend package="pr2_controller_interface" />
-  <depend package="pr2_mechanism_model" />
-  <depend package="pr2_mechanism_controllers" />
-  <depend package="pr2_mechanism_msgs" />
-  <depend package="nav_msgs" />
-  <depend package="filters" />
-  <depend package="control_toolbox" />
-  <depend package="realtime_tools" />
-  <depend package="pr2_controller_manager" />
+  <buildtool_depend>catkin</buildtool_depend>
+ 
+  <build_depend>pluginlib</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>pr2_controller_interface</build_depend>
+  <build_depend>pr2_mechanism_model</build_depend>
+  <build_depend>pr2_mechanism_controllers</build_depend>
+  <build_depend>pr2_mechanism_msgs</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>filters</build_depend>
+  <build_depend>control_toolbox</build_depend>
+  <build_depend>realtime_tools</build_depend>
+  <build_depend>pr2_controller_manager</build_depend>
 
+  <run_depend>pluginlib</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>pr2_controller_interface</run_depend>
+  <run_depend>pr2_mechanism_model</run_depend>
+  <run_depend>pr2_mechanism_controllers</run_depend>
+  <run_depend>pr2_mechanism_msgs</run_depend>
+  <run_depend>nav_msgs</run_depend>
+  <run_depend>filters</run_depend>
+  <run_depend>control_toolbox</run_depend>
+  <run_depend>realtime_tools</run_depend>
+  <run_depend>pr2_controller_manager</run_depend>
+  <run_depend>message_runtime</run_depend>
+
+<!-- TODO(Georg): these export flags should go away... -->
   <export>
     <cpp cflags="-I${prefix}/include -I${prefix}/msg/cpp -I${prefix}/srv/cpp"
          lflags="-Wl,-rpath,${prefix}/lib -L${prefix}/lib -liai_robot_mechanism_controllers" />
