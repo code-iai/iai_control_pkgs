@@ -35,10 +35,10 @@
  * Author: Sachin Chitta and Matthew Piccoli
  */
 
-#include "ias_mechanism_controllers/rosie_odometry.h"
+#include "iai_robot_mechanism_controllers/rosie_odometry.h"
 #include "pluginlib/class_list_macros.h"
 
-PLUGINLIB_DECLARE_CLASS(ias_mechanism_controllers, RosieOdometry, controller::RosieOdometry, pr2_controller_interface::Controller)
+PLUGINLIB_DECLARE_CLASS(iai_robot_mechanism_controllers, RosieOdometry, controller::RosieOdometry, pr2_controller_interface::Controller)
 
 namespace controller {
 

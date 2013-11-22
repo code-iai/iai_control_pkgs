@@ -1,6 +1,6 @@
 <package>
-  <description brief="ias_mechanism_controllers">
-    Mechanism controllers for ias related stuff
+  <description brief="iai_robot_mechanism_controllers">
+    Mechanism controllers for iai related stuff
     (Odometry publisher for simulated ROSIE and a
     multi-joint velocity controller.)
   </description>
@@ -24,7 +24,7 @@
 
   <export>
     <cpp cflags="-I${prefix}/include -I${prefix}/msg/cpp -I${prefix}/srv/cpp"
-         lflags="-Wl,-rpath,${prefix}/lib -L${prefix}/lib -lias_mechanism_controllers" />
+         lflags="-Wl,-rpath,${prefix}/lib -L${prefix}/lib -liai_robot_mechanism_controllers" />
     <pr2_controller_interface plugin="${prefix}/controller_plugins.xml" />
   </export>
 

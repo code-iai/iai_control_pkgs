@@ -1,5 +1,5 @@
 <launch>
-   <rosparam command="load" file="$(find ias_mechanism_controllers)/launch/pr2_cart_twist.yaml" />
+   <rosparam command="load" file="$(find iai_robot_mechanism_controllers)/launch/pr2_cart_twist.yaml" />
 
   <!-- unspawn the regular pr2 arm controllers -->
   <node name="unspawn_arm_controllers" pkg="pr2_controller_manager" type="unspawner" args="l_arm_controller r_arm_controller"/>

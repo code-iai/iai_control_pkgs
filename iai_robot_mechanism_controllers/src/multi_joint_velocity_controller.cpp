@@ -31,12 +31,12 @@
  * Author: Stuart Glaser
  */
 
-#include "ias_mechanism_controllers/multi_joint_velocity_controller.h"
+#include "iai_robot_mechanism_controllers/multi_joint_velocity_controller.h"
 #include <sstream>
 #include "angles/angles.h"
 #include "pluginlib/class_list_macros.h"
 
-PLUGINLIB_DECLARE_CLASS(ias_mechanism_controllers, MultiJointVelocityController, controller::MultiJointVelocityController, pr2_controller_interface::Controller)
+PLUGINLIB_DECLARE_CLASS(iai_robot_mechanism_controllers, MultiJointVelocityController, controller::MultiJointVelocityController, pr2_controller_interface::Controller)
 
 namespace controller {
 
