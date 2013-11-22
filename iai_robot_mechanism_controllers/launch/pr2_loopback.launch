@@ -19,7 +19,7 @@
         args="l_arm_controller r_arm_controller" />
 -->
 
-  <rosparam command="load" file="$(find iai_robot_mechanism_controllers)/launch/pr2_multi_vel.yaml"/>
+  <rosparam command="load" file="$(find iai_robot_mechanism_controllers)/config/pr2_multi_vel.yaml"/>
 
 
   <node name="spawn_vel"

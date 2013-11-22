@@ -19,7 +19,7 @@
         args="l_arm_controller r_arm_controller" />
 -->
 
-  <rosparam command="load" file="$(find iai_robot_mechanism_controllers)/launch/rosie_multi_vel.yaml"/>
+  <rosparam command="load" file="$(find iai_robot_mechanism_controllers)/config/rosie_multi_vel.yaml"/>
 
 
   <node name="spawn_vel"
