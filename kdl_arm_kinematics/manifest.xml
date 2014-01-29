@@ -18,8 +18,7 @@
   <depend package="tf" />
   <depend package="tf_conversions" />
   <depend package="kdl_parser" />
-  <depend package="kinematics_msgs" />
-  <depend package="arm_navigation_msgs" />
+  <depend package="orocos_kdl"/>
 
 </package>
 

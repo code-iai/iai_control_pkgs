@@ -14,11 +14,11 @@
 #include <kdl/chainiksolverpos_nr_jl.hpp>
 #include <kdl/chainiksolvervel_wdls.hpp>
 #include <kdl/chainfksolverpos_recursive.hpp>
-#include <kinematics_msgs/GetPositionFK.h>
-#include <kinematics_msgs/GetPositionIK.h>
-#include <kinematics_msgs/GetKinematicSolverInfo.h>
-#include <kinematics_msgs/KinematicSolverInfo.h>
-#include <kdl_arm_kinematics/GetWeightedIK.h>
+#include <iai_kinematics_msgs/GetPositionFK.h>
+#include <iai_kinematics_msgs/GetPositionIK.h>
+#include <iai_kinematics_msgs/GetKinematicSolverInfo.h>
+#include <iai_kinematics_msgs/KinematicSolverInfo.h>
+#include <iai_kinematics_msgs/GetWeightedIK.h>
 
 using std::string;
 
@@ -52,7 +52,7 @@ private:
 
   tf::TransformListener tf_listener;
 
-  kinematics_msgs::KinematicSolverInfo info;
+  iai_kinematics_msgs::KinematicSolverInfo info;
 
   void parseWeightParams(ros::NodeHandle &nh);
   bool loadModel(const std::string xml);
@@ -66,7 +66,7 @@ private:
     const Eigen::MatrixXd &weight_js, const double lambda);
   double calculateEps(const KDL::Frame &f, const KDL::Frame &ref,
     const Eigen::MatrixXd &weight=Eigen::MatrixXd::Identity(6,6));
-  void initializeWeights(const kdl_arm_kinematics::KDLWeights &msg,
+  void initializeWeights(const iai_kinematics_msgs::KDLWeights &msg,
     Eigen::MatrixXd &weight_ts, Eigen::MatrixXd &weight_js, double &lambda);
 
   /**
@@ -74,35 +74,35 @@ private:
    * @param A request message. See service definition for GetPositionIK for more information on this message.
    * @param The response message. See service definition for GetPositionIK for more information on this message.
    */
-  bool getPositionIK(kinematics_msgs::GetPositionIK::Request &request,
-    kinematics_msgs::GetPositionIK::Response &response);
+  bool getPositionIK(iai_kinematics_msgs::GetPositionIK::Request &request,
+    iai_kinematics_msgs::GetPositionIK::Response &response);
 
   /**
    * @brief This is the basic kinematics info service that will return information about the kinematics node.
    * @param A request message. See service definition for GetKinematicSolverInfo for more information on this message.
    * @param The response message. See service definition for GetKinematicSolverInfo for more information on this message.
    */
-  bool getIKSolverInfo(kinematics_msgs::GetKinematicSolverInfo::Request &request,
-    kinematics_msgs::GetKinematicSolverInfo::Response &response);
+  bool getIKSolverInfo(iai_kinematics_msgs::GetKinematicSolverInfo::Request &request,
+    iai_kinematics_msgs::GetKinematicSolverInfo::Response &response);
 
   /**
    * @brief This is the basic kinematics info service that will return information about the kinematics node.
    * @param A request message. See service definition for GetKinematicSolverInfo for more information on this message.
    * @param The response message. See service definition for GetKinematicSolverInfo for more information on this message.
    */
-  bool getFKSolverInfo(kinematics_msgs::GetKinematicSolverInfo::Request &request,
-    kinematics_msgs::GetKinematicSolverInfo::Response &response);
+  bool getFKSolverInfo(iai_kinematics_msgs::GetKinematicSolverInfo::Request &request,
+    iai_kinematics_msgs::GetKinematicSolverInfo::Response &response);
 
   /**
    * @brief This is the basic forward kinematics service that will return information about the kinematics node.
    * @param A request message. See service definition for GetPositionFK for more information on this message.
    * @param The response message. See service definition for GetPositionFK for more information on this message.
    */
-  bool getPositionFK(kinematics_msgs::GetPositionFK::Request &request,
-    kinematics_msgs::GetPositionFK::Response &response);
+  bool getPositionFK(iai_kinematics_msgs::GetPositionFK::Request &request,
+    iai_kinematics_msgs::GetPositionFK::Response &response);
 
-  bool getWeightedIK(kdl_arm_kinematics::GetWeightedIK::Request &request,
-    kdl_arm_kinematics::GetWeightedIK::Response &response);
+  bool getWeightedIK(iai_kinematics_msgs::GetWeightedIK::Request &request,
+    iai_kinematics_msgs::GetWeightedIK::Response &response);
 };
 
 
@@ -410,14 +410,14 @@ double Kinematics::calculateEps(const KDL::Frame &f, const KDL::Frame &ref, cons
     (yaw_diff * yaw_diff * weight(5, 5));
 }
 
-void Kinematics::initializeWeights(const kdl_arm_kinematics::KDLWeights &msg,
+void Kinematics::initializeWeights(const iai_kinematics_msgs::KDLWeights &msg,
     Eigen::MatrixXd &weight_ts, Eigen::MatrixXd &weight_js, double &lambda)
 {
-  if(msg.mode == kdl_arm_kinematics::KDLWeights::INVALID_MODE)
+  if(msg.mode == iai_kinematics_msgs::KDLWeights::INVALID_MODE)
   {
     return;
   }
-  if(msg.mode & kdl_arm_kinematics::KDLWeights::SET_TS)
+  if(msg.mode & iai_kinematics_msgs::KDLWeights::SET_TS)
   {
     for(int i=0, a=0; i<6; i++)
     {
@@ -425,7 +425,7 @@ void Kinematics::initializeWeights(const kdl_arm_kinematics::KDLWeights &msg,
         weight_ts(i, j) = msg.weight_ts[a];
     }
   }
-  if(msg.mode & kdl_arm_kinematics::KDLWeights::SET_JS)
+  if(msg.mode & iai_kinematics_msgs::KDLWeights::SET_JS)
   {
     int dim = sqrt(msg.weight_js.size());
     weight_js = Eigen::MatrixXd(dim, dim);
@@ -435,12 +435,12 @@ void Kinematics::initializeWeights(const kdl_arm_kinematics::KDLWeights &msg,
         weight_js(i, j) = msg.weight_js[a];
     }
   }
-  if(msg.mode & kdl_arm_kinematics::KDLWeights::SET_LAMBDA)
+  if(msg.mode & iai_kinematics_msgs::KDLWeights::SET_LAMBDA)
     lambda = msg.lambda;
 }
 
-bool Kinematics::getPositionIK(kinematics_msgs::GetPositionIK::Request &request,
-                               kinematics_msgs::GetPositionIK::Response &response) {
+bool Kinematics::getPositionIK(iai_kinematics_msgs::GetPositionIK::Request &request,
+                               iai_kinematics_msgs::GetPositionIK::Response &response) {
 
   geometry_msgs::PoseStamped pose_msg_in = request.ik_request.pose_stamped;
   tf::Stamped<tf::Pose> transform;
@@ -498,20 +498,20 @@ bool Kinematics::getPositionIK(kinematics_msgs::GetPositionIK::Request &request,
   }
 }
 
-bool Kinematics::getIKSolverInfo(kinematics_msgs::GetKinematicSolverInfo::Request &request,
-                                 kinematics_msgs::GetKinematicSolverInfo::Response &response) {
+bool Kinematics::getIKSolverInfo(iai_kinematics_msgs::GetKinematicSolverInfo::Request &request,
+                                 iai_kinematics_msgs::GetKinematicSolverInfo::Response &response) {
   response.kinematic_solver_info = info;
   return true;
 }
 
-bool Kinematics::getFKSolverInfo(kinematics_msgs::GetKinematicSolverInfo::Request &request,
-                                 kinematics_msgs::GetKinematicSolverInfo::Response &response) {
+bool Kinematics::getFKSolverInfo(iai_kinematics_msgs::GetKinematicSolverInfo::Request &request,
+                                 iai_kinematics_msgs::GetKinematicSolverInfo::Response &response) {
   response.kinematic_solver_info = info;
   return true;
 }
 
-bool Kinematics::getPositionFK(kinematics_msgs::GetPositionFK::Request &request,
-                               kinematics_msgs::GetPositionFK::Response &response) {
+bool Kinematics::getPositionFK(iai_kinematics_msgs::GetPositionFK::Request &request,
+                               iai_kinematics_msgs::GetPositionFK::Response &response) {
   KDL::Frame p_out;
   KDL::JntArray jnt_pos_in;
   geometry_msgs::PoseStamped pose;
@@ -541,7 +541,7 @@ bool Kinematics::getPositionFK(kinematics_msgs::GetPositionFK::Request &request,
         tf_listener.transformPose(request.header.frame_id,tf_pose,tf_pose);
       } catch (...) {
         ROS_ERROR("Could not transform FK pose to frame: %s",request.header.frame_id.c_str());
-        response.error_code.val = arm_navigation_msgs::ArmNavigationErrorCodes::FRAME_TRANSFORM_FAILURE;
+        response.error_code.val = iai_kinematics_msgs::ErrorCodes::FRAME_TRANSFORM_FAILURE;
         return false;
       }
       tf::poseStampedTFToMsg(tf_pose,pose);
@@ -550,14 +550,14 @@ bool Kinematics::getPositionFK(kinematics_msgs::GetPositionFK::Request &request,
       response.error_code.val = response.error_code.SUCCESS;
     } else {
       ROS_ERROR("Could not compute FK for %s",request.fk_link_names[i].c_str());
-      response.error_code.val = arm_navigation_msgs::ArmNavigationErrorCodes::NO_FK_SOLUTION;
+      response.error_code.val = iai_kinematics_msgs::ErrorCodes::NO_FK_SOLUTION;
     }
   }
   return true;
 }
 
-bool Kinematics::getWeightedIK(kdl_arm_kinematics::GetWeightedIK::Request &request,
-  kdl_arm_kinematics::GetWeightedIK::Response &response)
+bool Kinematics::getWeightedIK(iai_kinematics_msgs::GetWeightedIK::Request &request,
+  iai_kinematics_msgs::GetWeightedIK::Response &response)
 {
   geometry_msgs::PoseStamped pose_msg_in = request.pose;
   tf::Stamped<tf::Pose> transform;
