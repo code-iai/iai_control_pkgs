@@ -22,7 +22,6 @@
   <build_depend>pr2_hardware_interface</build_depend>
   <build_depend>pr2_controller_manager</build_depend>
   <build_depend>pr2_mechanism_model</build_depend>
-  <build_depend>hardware_interface</build_depend>
   <build_depend>urdf</build_depend>
   <build_depend>boost</build_depend>
 
@@ -30,7 +29,6 @@
   <run_depend>pr2_hardware_interface</run_depend>
   <run_depend>pr2_controller_manager</run_depend>
   <run_depend>pr2_mechanism_model</run_depend>
-  <run_depend>hardware_interface</run_depend>
   <run_depend>urdf</run_depend>
   <run_depend>boost</run_depend>
 
