@@ -19,6 +19,7 @@
   <depend package="tf_conversions" />
   <depend package="kdl_parser" />
   <depend package="orocos_kdl"/>
+  <depend package="iai_kinematics_msgs"/>
 
 </package>
 
