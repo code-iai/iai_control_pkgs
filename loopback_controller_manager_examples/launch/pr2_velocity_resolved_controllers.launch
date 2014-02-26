@@ -7,6 +7,4 @@
 
   <include file="$(find iai_robot_mechanism_controllers)/launch/pr2_multi_vel_load.launch"/>
 
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find loopback_controller_manager_examples)/config/pr2_sim.rviz"/>
-
 </launch>
