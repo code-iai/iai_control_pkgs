@@ -1,0 +1,14 @@
+<package>
+  <description brief="iai_tf_relay">
+
+     A relay to broadcast transforms to TF.
+
+  </description>
+  <author>Georg Bartels</author>
+  <license>BSD</license>
+  <depend package="roscpp"/>
+  <depend package="actionlib"/>
+  <depend package="tf"/>
+  <depend package="iai_tf_relay_msgs"/>
+
+</package>
