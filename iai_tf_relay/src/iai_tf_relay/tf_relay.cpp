@@ -8,7 +8,7 @@ class TfRelay
 {
   public:
     TfRelay(const ros::NodeHandle& nh) : 
-        nh_(nh), action_server_(nh, "tf_relay", false)
+        nh_(nh), action_server_(nh, "broadcast", false)
     {
       action_server_.registerGoalCallback( boost::bind(
           &TfRelay::commandGoalCallback, this ) );
