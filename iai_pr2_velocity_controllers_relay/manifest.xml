@@ -9,4 +9,6 @@
   <author>Georg Bartels</author>
   <license>BSD</license>
 
+  <depend package="roscpp"/>
+
 </package>
