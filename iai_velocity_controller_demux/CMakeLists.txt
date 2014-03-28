@@ -5,4 +5,4 @@ rosbuild_init()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
-rosbuild_add_executable(iai_pr2_vel_ctrls_relay src/iai_pr2_velocity_controllers_relay/iai_pr2_velocity_controllers_relay.cpp)
+rosbuild_add_executable(iai_pr2_velocity_controller_demux src/iai_velocity_controller_demux/iai_pr2_velocity_controller_demux.cpp)

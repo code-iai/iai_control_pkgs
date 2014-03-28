@@ -1,0 +1,12 @@
+<package>
+  <description brief="iai_velocity_controller_demux">
+
+    Functionality to demux joint-array velocity commands 
+    onto single-joint commands.
+
+  </description>
+  <author>Georg Bartels</author>
+  <license>BSD</license>
+
+  <depend package="roscpp"/>
+</package>
