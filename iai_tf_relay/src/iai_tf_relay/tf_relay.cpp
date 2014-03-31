@@ -22,7 +22,18 @@ class TfRelay
 
     void callback(const tf::tfMessage::ConstPtr& msg)
     {
-      broadcaster_.sendTransform(msg->transforms);
+      // future-date the transforms to avoid lags
+      std::vector<geometry_msgs::TransformStamped> transforms = msg->transforms;
+      update_timestamps(transforms);
+      broadcaster_.sendTransform(transforms);
+
+//      broadcaster_.sendTransform(msg->transforms);
+    }
+
+    void update_timestamps(std::vector<geometry_msgs::TransformStamped>& transforms)
+    {
+      for(unsigned int i=0; i<transforms.size(); i++)
+        transforms[i].header.stamp = ros::Time::now() + ros::Duration(0.01);
     }
 };
 
