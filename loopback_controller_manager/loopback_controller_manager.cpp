@@ -122,13 +122,18 @@ void LoopbackControllerManager::jointCallback(const sensor_msgs::JointState::Con
 void LoopbackControllerManager::init()
 {
   rosnode_ = new ros::NodeHandle("/");
+
   cm_ = new pr2_controller_manager::ControllerManager(&hw_,*rosnode_);
   readUrdf();  // read urdf, setup actuators, then setup mechanism control node
 
   ros::NodeHandle private_node = ros::NodeHandle("~");
-  private_node.param("dt", dt_, 0.01);
-  private_node.param("damping", damping_, 0.1);
-  private_node.param("mass", mass_, 0.1);
+  private_node.param<double>("dt", dt_, 0.01);
+  private_node.param<double>("damping", damping_, 0.1);
+  private_node.param<double>("mass", mass_, 0.1);
+
+  ROS_INFO("dt: %f", dt_);
+  ROS_INFO("damping: %f", damping_);
+  ROS_INFO("mass: %f", mass_);
 
   desired_angles_sub_ = private_node.subscribe("desired_joints", 1, &LoopbackControllerManager::jointCallback, this);
 
