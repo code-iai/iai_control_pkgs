@@ -1,6 +1,0 @@
-<launch>
-  <!-- start the loopback controller manager incl. robot state publisher -->
-  <include file="$(find loopback_controller_manager_examples)/launch/pr2_loopback_no_controllers.launch"/>
-
-  <include file="$(find loopback_controller_manager_examples)/launch/load_pr2_standard_arm_action_controllers.launch"/>
-</launch>
