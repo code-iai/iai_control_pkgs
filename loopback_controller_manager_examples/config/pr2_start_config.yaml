@@ -3,6 +3,7 @@ joints:
     - torso_lift_joint
     - head_tilt_joint
     - l_gripper_joint
+    - r_gripper_joint
     - r_upper_arm_roll_joint
     - r_shoulder_pan_joint
     - r_shoulder_lift_joint
@@ -20,7 +21,8 @@ joints:
   position:
     - 0.31
     - 1.05
-    - 0.04
+    - 1.0
+    - 1.0
     - -1.9643297630604963
     - -1.265335905500992
     - 1.2666995326579538
