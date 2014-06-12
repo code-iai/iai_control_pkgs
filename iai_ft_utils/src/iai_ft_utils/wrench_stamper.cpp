@@ -1,6 +1,25 @@
 #include <ros/ros.h>
 #include <geometry_msgs/WrenchStamped.h>
 
+//
+// IDEA BEHIND THIS NODE:
+// The data published by the force/torque sensor of the PR2
+// does not contain a frame-id in its header. As a result,
+// the measured wrench cannot be displayed in rviz. 
+//
+// This node offers functionality to add a frame-id to those
+// measurements and publish them on a new topic. 
+//
+// Node parameters:
+//   '~frame_id': a string to put into the header of the wrench
+//
+// Node subscriptions:
+//   '~in_topic': geometry_msgs/WrenchStamped coming from robot
+//
+// Node publications:
+//   '~out_topic': geometry_msgs/WrenchStamped with frame-id
+//
+ 
 class WrenchStamper
 {
   public:
