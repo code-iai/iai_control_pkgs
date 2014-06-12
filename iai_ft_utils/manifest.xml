@@ -1,0 +1,11 @@
+<package>
+  <description brief="iai_ft_utils">
+
+     Collection of tools to visualize and setup up
+     force/torque-controlled robot manipulation.
+
+  </description>
+  <author>Georg Bartels</author>
+  <license>BSD</license>
+
+</package>
