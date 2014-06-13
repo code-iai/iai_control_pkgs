@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="iai_rosbag_utils" type="joint_state_restamper" 
+      name="pr2_joint_state_restamper">
+    <remap from="~in_topic" to="/joint_states"/>
+    <remap from="~out_topic" to="/joint_states/restamped"/>
+  </node>
+</launch>

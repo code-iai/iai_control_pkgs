@@ -1,0 +1,12 @@
+<package>
+  <description brief="iai_rosbag_utils">
+
+     A collection of tools easing with using rosbags.
+
+  </description>
+  <author>Georg Bartels</author>
+  <license>BSD</license>
+
+  <depend package="roscpp"/>
+  <depend package="sensor_msgs"/>
+</package>
