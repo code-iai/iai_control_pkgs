@@ -1,7 +1,7 @@
 <package>
   <description brief="iai_rosbag_utils">
 
-     A collection of tools easing with using rosbags.
+     A collection of tools helping with using rosbags.
 
   </description>
   <author>Georg Bartels</author>
@@ -9,4 +9,5 @@
 
   <depend package="roscpp"/>
   <depend package="sensor_msgs"/>
+  <depend package="pr2_msgs"/>
 </package>
