@@ -4,6 +4,7 @@ import rospy
 import sys
 from rosbag import Bag
 
+# This script takes 4 parameters in the following order: old-bag-file old-topic new-bag-file new-topic 
 if sys.argv[1] == sys.argv[3]:
 	sys.exit("The new file needs to have another name.")
 
