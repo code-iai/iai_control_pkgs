@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="iai_rosbag_utils" type="human_restamper" 
+      name="pr2_human_restamper">
+    <remap from="~in_topic" to="/saphari/human"/>
+    <remap from="~out_topic" to="/saphari/human/restamped"/>
+  </node>
+</launch>
