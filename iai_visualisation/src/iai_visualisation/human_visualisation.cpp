@@ -5,13 +5,13 @@
 #include <visualization_msgs/MarkerArray.h>
 #include <string>
 
-class HumanVisualizer
+class HumanVisualisation
 {
   public:
-    HumanVisualizer(const ros::NodeHandle& nh): nh_(nh)
+    HumanVisualisation(const ros::NodeHandle& nh): nh_(nh)
     {
       publisher_ = nh_.advertise<visualization_msgs::MarkerArray>("out_topic", 1);
-      subscriber_ = nh_.subscribe("in_topic", 1, &HumanVisualizer::callback, this);
+      subscriber_ = nh_.subscribe("in_topic", 1, &HumanVisualisation::callback, this);
       seq_ = 0;
       bodypart_Map_[saphari_msgs::BodyPart::LEFTFOOT] = "left_foot";
       bodypart_Map_[saphari_msgs::BodyPart::LEFTLEG] = "left_leg";
@@ -45,7 +45,7 @@ class HumanVisualizer
       bodypart_Map_[saphari_msgs::BodyPart::LEFTSHOULDER] = "left_shoulder";
     }
 
-    ~HumanVisualizer() {}
+    ~HumanVisualisation() {}
 
   private:
     ros::NodeHandle nh_;
@@ -151,11 +151,11 @@ class HumanVisualizer
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "human_visualizer");
+  ros::init(argc, argv, "human_visualisation");
 
   ros::NodeHandle nh("~");
 
-  HumanVisualizer human_visualizer(nh);
+  HumanVisualisation human_visualisation(nh);
 
   ros::spin();
 
