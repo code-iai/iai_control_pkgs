@@ -1,6 +1,6 @@
 <launch>
-  <node pkg="iai_visualisation" type="human_visualisation" 
-      name="pr2_human_visualisation">
+  <node pkg="iai_visualization" type="human_visualization" 
+      name="pr2_human_visualization">
     <remap from="~in_topic" to="/saphari/human"/>
     <remap from="~out_topic" to="/visualization_marker_array"/>
   </node>

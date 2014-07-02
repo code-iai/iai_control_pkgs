@@ -5,14 +5,14 @@
 #include <visualization_msgs/MarkerArray.h>
 #include <string>
 
-class EquipmentVisualisation
+class EquipmentVisualization
 {
   public:
-    EquipmentVisualisation(const ros::NodeHandle& nh): nh_(nh)
+    EquipmentVisualization(const ros::NodeHandle& nh): nh_(nh)
     {
       publisher_ = nh_.advertise<visualization_msgs::MarkerArray>("out_topic", 1);
-      subscriber_ = nh_.subscribe("in_topic", 1, &EquipmentVisualisation::callback, this);
-      seq_ = 0;
+      subscriber_ = nh_.subscribe("in_topic", 1, &EquipmentVisualization::callback, this);
+
       equipment_Map_[saphari_msgs::Equipment::BOWL] = "bowl";
       equipment_Map_[saphari_msgs::Equipment::CLAMP_BIG] = "clamp_big";
       equipment_Map_[saphari_msgs::Equipment::CLAMP_SMALL] = "clamp_small";
@@ -20,13 +20,12 @@ class EquipmentVisualisation
       equipment_Map_[saphari_msgs::Equipment::SCISSORS] = "scissors";
     }
 
-    ~EquipmentVisualisation() {}
+    ~EquipmentVisualization() {}
 
   private:
     ros::NodeHandle nh_;
     ros::Subscriber subscriber_;
     ros::Publisher publisher_;
-    uint32_t seq_;
     std::map<uint8_t,std::string> equipment_Map_;
 
     void callback(const saphari_msgs::PerceivedEquipment::ConstPtr& msg)
@@ -50,7 +49,7 @@ class EquipmentVisualisation
       publisher_.publish(markerArray);
     }
 
-    visualization_msgs::Marker visualize_equipment(saphari_msgs::Equipment& equipment)
+    visualization_msgs::Marker visualize_equipment(const saphari_msgs::Equipment& equipment)
     {
       visualization_msgs::Marker marker;
 
@@ -126,11 +125,11 @@ class EquipmentVisualisation
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "equipment_visualisation");
+  ros::init(argc, argv, "equipment_visualization");
 
   ros::NodeHandle nh("~");
 
-  EquipmentVisualisation equipment_visualisation(nh);
+  EquipmentVisualization equipment_visualization(nh);
 
   ros::spin();
 

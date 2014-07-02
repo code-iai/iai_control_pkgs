@@ -5,14 +5,14 @@
 #include <visualization_msgs/MarkerArray.h>
 #include <string>
 
-class HumanVisualisation
+class HumanVisualization
 {
   public:
-    HumanVisualisation(const ros::NodeHandle& nh): nh_(nh)
+    HumanVisualization(const ros::NodeHandle& nh): nh_(nh)
     {
       publisher_ = nh_.advertise<visualization_msgs::MarkerArray>("out_topic", 1);
-      subscriber_ = nh_.subscribe("in_topic", 1, &HumanVisualisation::callback, this);
-      seq_ = 0;
+      subscriber_ = nh_.subscribe("in_topic", 1, &HumanVisualization::callback, this);
+
       bodypart_Map_[saphari_msgs::BodyPart::LEFTFOOT] = "left_foot";
       bodypart_Map_[saphari_msgs::BodyPart::LEFTLEG] = "left_leg";
       bodypart_Map_[saphari_msgs::BodyPart::LEFTKNEE] = "left_knee";
@@ -45,13 +45,12 @@ class HumanVisualisation
       bodypart_Map_[saphari_msgs::BodyPart::LEFTSHOULDER] = "left_shoulder";
     }
 
-    ~HumanVisualisation() {}
+    ~HumanVisualization() {}
 
   private:
     ros::NodeHandle nh_;
     ros::Subscriber subscriber_;
     ros::Publisher publisher_;
-    uint32_t seq_;
     std::map<uint8_t,std::string> bodypart_Map_;
 
     void callback(const saphari_msgs::Human::ConstPtr& msg)
@@ -75,7 +74,7 @@ class HumanVisualisation
       publisher_.publish(markerArray);
     }
 
-    visualization_msgs::Marker visualize_bodypart(saphari_msgs::BodyPart& bodypart, std_msgs::Header& header)
+    visualization_msgs::Marker visualize_bodypart(const saphari_msgs::BodyPart& bodypart, const std_msgs::Header& header)
     {
       visualization_msgs::Marker marker;
 
@@ -151,11 +150,11 @@ class HumanVisualisation
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "human_visualisation");
+  ros::init(argc, argv, "human_visualization");
 
   ros::NodeHandle nh("~");
 
-  HumanVisualisation human_visualisation(nh);
+  HumanVisualization human_visualization(nh);
 
   ros::spin();
 

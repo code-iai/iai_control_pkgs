@@ -1,7 +1,7 @@
 <package>
-  <description brief="iai_visualisation">
+  <description brief="iai_visualization">
 
-     Creates visualisation_msgs from saphari_msgs/Human and saphari_msgs/Equipment.
+     Creates visualization_msgs from saphari_msgs/Human and saphari_msgs/Equipment.
 
   </description>
   <author>Jannik Buckelo</author>

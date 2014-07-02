@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find iai_visualization)/launch/visualization.launch"/>
+  <include file="$(find iai_rosbag_utils)/launch/human_equipment_restamper.launch"/>
+</launch>

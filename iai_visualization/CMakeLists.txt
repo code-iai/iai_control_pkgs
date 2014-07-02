@@ -6,7 +6,7 @@ rosbuild_init()
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-rosbuild_add_executable(human_visualisation 	
-	src/iai_visualisation/human_visualisation.cpp)
-rosbuild_add_executable(equipment_visualisation 	
-	src/iai_visualisation/equipment_visualisation.cpp)
+rosbuild_add_executable(human_visualization 	
+	src/iai_visualization/human_visualization.cpp)
+rosbuild_add_executable(equipment_visualization 	
+	src/iai_visualization/equipment_visualization.cpp)
