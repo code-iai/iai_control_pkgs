@@ -13,6 +13,10 @@ class HumanVisualization
       publisher_ = nh_.advertise<visualization_msgs::MarkerArray>("out_topic", 1);
       subscriber_ = nh_.subscribe("in_topic", 1, &HumanVisualization::callback, this);
 
+      overwrite_frame_id_ = 0;
+      if(nh_.getParam("human_frame_id", frame_id_))
+        overwrite_frame_id_ = 1;
+
       bodypart_Map_[saphari_msgs::BodyPart::LEFTFOOT] = "left_foot";
       bodypart_Map_[saphari_msgs::BodyPart::LEFTLEG] = "left_leg";
       bodypart_Map_[saphari_msgs::BodyPart::LEFTKNEE] = "left_knee";
@@ -52,6 +56,8 @@ class HumanVisualization
     ros::Subscriber subscriber_;
     ros::Publisher publisher_;
     std::map<uint8_t,std::string> bodypart_Map_;
+    std::string frame_id_;
+    int overwrite_frame_id_;
 
     void callback(const saphari_msgs::Human::ConstPtr& msg)
     {
@@ -78,8 +84,12 @@ class HumanVisualization
     {
       visualization_msgs::Marker marker;
 
-      // Set the frame ID and timestamp.  See the TF tutorials for information on these.
-      marker.header.frame_id = header.frame_id;
+      // Set the frame ID and timestamp.
+      if(overwrite_frame_id_)
+        marker.header.frame_id = frame_id_;
+      else
+        marker.header.frame_id = header.frame_id;
+
       marker.header.stamp = ros::Time::now();
 
       // Set the namespace and id for this marker.  This serves to create a unique ID
