@@ -1,0 +1,22 @@
+<package>
+  <name>iai_visualization</name>
+  <version>0.0.0</version>
+  <description>
+    Creates visualization_msgs from saphari_msgs/Human and saphari_msgs/Equipment.
+  </description>
+
+  <author email="jannikbu@cs.uni-bremen.de">Jannik Buckelo</author>
+  <maintainer email="georg.bartels@cs.uni-bremen.de">Georg Bartels</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>saphari_msgs</build_depend>
+  <build_depend>visualization_msgs</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>saphari_msgs</run_depend>
+  <run_depend>visualization_msgs</run_depend>
+</package>
