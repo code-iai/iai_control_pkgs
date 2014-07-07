@@ -13,15 +13,14 @@ find_package(catkin REQUIRED COMPONENTS
   filters
   control_toolbox
   realtime_tools
-  pr2_controller_manager
-  message_runtime)
+  pr2_controller_manager)
 
 find_package(Boost REQUIRED COMPONENTS thread)
 
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
-#  CATKIN_DEPENDS TODO
+  CATKIN_DEPENDS std_msgs nav_msgs pr2_mechanism_msgs
 #  DEPENDS Boost TODO
 )
 

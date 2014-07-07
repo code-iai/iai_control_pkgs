@@ -47,7 +47,6 @@
   <run_depend>control_toolbox</run_depend>
   <run_depend>realtime_tools</run_depend>
   <run_depend>pr2_controller_manager</run_depend>
-  <run_depend>message_runtime</run_depend>
 
 <!-- TODO(Georg): these export flags should go away... -->
   <export>
