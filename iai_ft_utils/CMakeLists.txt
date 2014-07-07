@@ -1,17 +1,18 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(iai_ft_utils)
 
-rosbuild_init()
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  geometry_msgs)
 
-#set the default path for built executables to the "bin" directory
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-#set the default path for built libraries to the "lib" directory
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+catkin_package(
+  CATKIN_DEPENDS roscpp geometry_msgs)
 
-#common commands for building c++ executables and libraries
-#rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
-#target_link_libraries(${PROJECT_NAME} another_library)
-#rosbuild_add_boost_directories()
-#rosbuild_link_boost(${PROJECT_NAME} thread)
-rosbuild_add_executable(wrench_stamper src/iai_ft_utils/wrench_stamper.cpp)
-#target_link_libraries(example ${PROJECT_NAME})
+include_directories(
+  ${catkin_INCLUDE_DIRS})
+
+add_executable(wrench_stamper 
+  src/iai_ft_utils/wrench_stamper.cpp)
+
+target_link_libraries(wrench_stamper
+  ${catkin_LIBRARIES})
