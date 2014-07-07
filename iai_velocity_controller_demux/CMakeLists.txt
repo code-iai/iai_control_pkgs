@@ -1,8 +1,17 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+project(iai_velocity_controller_demux)
 
-rosbuild_init()
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  std_msgs)
 
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+catkin_package(
+  CATKIN_DEPENDS roscpp std_msgs)
 
-rosbuild_add_executable(iai_pr2_velocity_controller_demux src/iai_velocity_controller_demux/iai_pr2_velocity_controller_demux.cpp)
+include_directories(
+  ${catkin_INCLUDE_DIRS})
+
+add_executable(iai_pr2_velocity_controller_demux
+  src/iai_velocity_controller_demux/iai_pr2_velocity_controller_demux.cpp)
+
+target_link_libraries(iai_pr2_velocity_controller_demux
+  ${catkin_LIBRARIES})
