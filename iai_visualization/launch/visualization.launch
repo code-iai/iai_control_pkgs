@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find iai_visualization)/launch/human_visualization.launch"/>
+  <include file="$(find iai_visualization)/launch/equipment_visualization.launch"/>
+</launch>

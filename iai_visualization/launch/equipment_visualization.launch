@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="iai_visualization" type="equipment_visualization" 
+      name="pr2_equipment_visualization">
+    <remap from="~in_topic" to="/detect_equipment"/>
+    <remap from="~out_topic" to="/visualization_marker_array"/>
+  </node>
+</launch>

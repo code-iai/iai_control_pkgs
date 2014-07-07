@@ -1,0 +1,13 @@
+<package>
+  <description brief="iai_visualization">
+
+     Creates visualization_msgs from saphari_msgs/Human and saphari_msgs/Equipment.
+
+  </description>
+  <author>Jannik Buckelo</author>
+  <license>BSD</license>
+
+  <depend package="roscpp"/>
+  <depend package="saphari_msgs"/>
+  <depend package="visualization_msgs"/>
+</package>
