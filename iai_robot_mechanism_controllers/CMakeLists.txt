@@ -17,9 +17,6 @@ find_package(catkin REQUIRED COMPONENTS
   message_runtime)
 
 find_package(Boost REQUIRED COMPONENTS thread)
-# TODO(Georg): remove dependency on orocos_kdl once orocos_kdl
-# version 1.1.102+ is released
-find_package(orocos_kdl REQUIRED)
 
 catkin_package(
   INCLUDE_DIRS include
@@ -31,18 +28,13 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
-  ${Boost_INCLUDE_DIRS}
-  ${orocos_kdl_INCLUDE_DIRS})
+  ${Boost_INCLUDE_DIRS})
  
-link_directories(
-  ${orocos_kdl_LIBRARY_DIRS})
-
 add_library(${PROJECT_NAME}
   src/rosie_odometry.cpp
   src/multi_joint_velocity_controller.cpp)
 
 target_link_libraries(${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-  ${orocos_kdl_LIBRARIES})
+  ${catkin_LIBRARIES})
 
 # TODO (install targets)
