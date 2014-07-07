@@ -1,0 +1,7 @@
+<launch>
+  <!-- load params of the joint velocity controllers -->
+  <rosparam command="load" file="$(find iai_robot_mechanism_controllers)/config/pr2_multi_vel.yaml" />
+
+  <!-- load the velocity-resolved controllers in stopped state -->
+  <node name="spawner_vel_controllers" pkg="pr2_controller_manager" type="spawner" args="--stopped l_arm_vel r_arm_vel" />
+</launch>

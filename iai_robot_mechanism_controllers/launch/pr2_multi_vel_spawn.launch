@@ -1,0 +1,10 @@
+<launch>
+  <!-- load params of the joint velocity controllers -->
+  <rosparam command="load" file="$(find iai_robot_mechanism_controllers)/config/pr2_multi_vel.yaml"/>
+
+  <!-- unspawn the regual pr2 arm controllers -->
+  <node name="unspawn_arm_controllers" pkg="pr2_controller_manager" type="unspawner" args="l_arm_controller r_arm_controller"/>
+
+  <!-- spawn the pr2 joint velocity controllers -->
+  <node name="spawn_vel" pkg="pr2_controller_manager" type="spawner" args="l_arm_vel r_arm_vel" />
+</launch>
