@@ -1,8 +1,17 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(iai_tf_relay)
 
-rosbuild_init()
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  tf)
 
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+catkin_package(
+  CATKIN_DEPENDS roscpp tf)
 
-rosbuild_add_executable(tf_relay src/iai_tf_relay/tf_relay.cpp)
+include_directories(
+  ${catkin_INCLUDE_DIRS})
+
+add_executable(tf_relay 
+  src/iai_tf_relay/tf_relay.cpp)
+target_link_libraries(tf_relay
+  ${catkin_LIBRARIES})

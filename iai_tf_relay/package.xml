@@ -1,9 +1,8 @@
 <package>
-  <name>iai_ft_utils</name>
+  <name>iai_tf_relay</name>
   <version>0.0.0</version>
   <description>
-     Collection of tools to visualize and setup up
-     force/torque-controlled robot manipulation.
+     A relay to broadcast transforms to TF.
   </description>
 
   <author email="georg.bartels@cs.uni-bremen.de">Georg Bartels</author>
@@ -14,8 +13,8 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>roscpp</build_depend>
-  <build_depend>geometry_msgs</build_depend>
+  <build_depend>tf</build_depend>
 
   <run_depend>roscpp</run_depend>
-  <run_depend>geometry_msgs</run_depend>
+  <run_depend>tf</run_depend>
 </package>
