@@ -2,23 +2,23 @@
 #include <tf2_msgs/TFMessage.h>
 #include <geometry_msgs/TransformStamped.h>
 
-class TFLedger
+class TFRepeater
 {
   public:
-    TFLedger(const ros::NodeHandle& nh): nh_(nh)
+    TFRepeater(const ros::NodeHandle& nh): nh_(nh)
     {
       // Check if parameters are set else return
       if(!nh_.getParam("parent_frame", parent_frame_) || !nh_.getParam("child_frame", child_frame_)) 
         return;
 
       publisher_ = nh_.advertise<tf2_msgs::TFMessage>("out_topic", 1);
-      subscriber_ = nh_.subscribe("in_topic", 1, &TFLedger::callback, this);
+      subscriber_ = nh_.subscribe("in_topic", 1, &TFRepeater::callback, this);
       has_transform_ = 0;
       time_of_last_transform_ = ros::Time(0.1);
       ros::Duration time_between_transforms_ = ros::Duration(0.1);
     }
 
-    ~TFLedger() {}
+    ~TFRepeater() {}
 
   private:
     ros::NodeHandle nh_;
@@ -71,11 +71,11 @@ class TFLedger
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "tf_ledger");
+  ros::init(argc, argv, "tf_repeater");
 
   ros::NodeHandle nh("~");
 
-  TFLedger tf_ledger(nh);
+  TFRepeater tf_repeater(nh);
 
   ros::spin();
 

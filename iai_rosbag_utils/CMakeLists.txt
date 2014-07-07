@@ -16,5 +16,5 @@ rosbuild_add_executable(equipment_restamper
     src/iai_rosbag_utils/equipment_restamper.cpp)
 rosbuild_add_executable(tf_restamper 	
 	src/iai_rosbag_utils/tf_restamper.cpp)
-rosbuild_add_executable(tf_ledger	
-	src/iai_rosbag_utils/tf_ledger.cpp)
+rosbuild_add_executable(tf_repeater
+	src/iai_rosbag_utils/tf_repeater.cpp)
