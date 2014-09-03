@@ -1,0 +1,10 @@
+#request constants
+int8 ADD=0
+int8 REMOVE=1
+#request fields
+int8 action
+string xml
+string[] names
+---
+#response fields
+bool success
