@@ -17,7 +17,8 @@ catkin_package(
   CATKIN_DEPENDS 
     roscpp
     message_runtime
-    robot_state_publisher)
+    robot_state_publisher
+    tinyxml)
 
 include_directories(
   ${catkin_INCLUDE_DIRS} 
@@ -29,4 +30,4 @@ add_library(${PROJECT_NAME}_solver src/joint_state_listener.cpp)
 target_link_libraries(${PROJECT_NAME}_solver ${catkin_LIBRARIES} ${orocos_kdl_LIBRARIES})
 
 add_executable(${PROJECT_NAME} src/dynamic_robot_state_publisher.cpp)
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${orocos_kdl_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_solver ${catkin_LIBRARIES} ${orocos_kdl_LIBRARIES})
