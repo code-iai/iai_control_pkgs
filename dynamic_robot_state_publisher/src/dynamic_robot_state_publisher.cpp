@@ -27,7 +27,7 @@ DynamicRobotStatePublisher::DynamicRobotStatePublisher()
   xml_doc_->Parse((char*)urdf_description.c_str());
 
   // create a joint_state_listener
-  createNewJointStateListener();
+  createNewJointStateListener(xml_doc_);
 
   // create the service
   ros::ServiceServer service = nh.advertiseService("alter_urdf", &DynamicRobotStatePublisher::callbackAlterUrdf, this);
@@ -44,8 +44,7 @@ bool DynamicRobotStatePublisher::callbackAlterUrdf(dynamic_robot_state_publisher
 {
   ROS_INFO("Action %i", req.action);
 
-  ROS_INFO("Reset JointStateListener");
-  joint_state_listener_.reset();
+  boost::shared_ptr<TiXmlDocument> xml_new_doc(new TiXmlDocument(*xml_doc_));
 
   // add the new links and joints to the xml
   if (req.action == dynamic_robot_state_publisher::AlterUrdf::Request::ADD) {
@@ -55,6 +54,13 @@ bool DynamicRobotStatePublisher::callbackAlterUrdf(dynamic_robot_state_publisher
     TiXmlDocument xml_addition("additional_links_joints.urdf");
     xml_addition.Parse(req.xml.c_str());
 
+    // check if an error occured
+    if (xml_addition.Error()) {
+      ROS_ERROR("Error: %s", xml_addition.ErrorDesc());
+      res.success = false;
+      return true;
+    }
+
     ROS_INFO("Parsed xml:");
     xml_addition.Print();
 
@@ -63,52 +69,62 @@ bool DynamicRobotStatePublisher::callbackAlterUrdf(dynamic_robot_state_publisher
     while (previous_child)
     {
       ROS_INFO("Adding %s %s", previous_child->Value(), previous_child->ToElement()->Attribute("name"));
-      xml_doc_->RootElement()->LinkEndChild(previous_child->Clone());
+      xml_new_doc->RootElement()->LinkEndChild(previous_child->Clone());
       previous_child = xml_addition.IterateChildren(previous_child);
     } 
   }
 
+  // remove links and joints from the urdf
   if (req.action == dynamic_robot_state_publisher::AlterUrdf::Request::REMOVE) {
-    // remove elements with from the urdf which names are in req.names
+    TiXmlNode* child;
+
+    // remove elements form the urdf which names are in req.names
     for(std::vector<std::string>::iterator name = req.names.begin(); name != req.names.end(); ++name)
     {
       ROS_INFO("Searching %s", (*name).c_str());
-      TiXmlNode* child = find_child_with_attribute(xml_doc_->RootElement()->FirstChildElement(), "name", *name);
+      child = find_child_with_attribute(xml_new_doc->RootElement()->FirstChildElement(), "name", *name);
       if (child) {
         ROS_INFO("Removing %s", (*name).c_str());
-        xml_doc_->RootElement()->RemoveChild(child);
+        xml_new_doc->RootElement()->RemoveChild(child);
+      } 
+      else {
+        ROS_INFO("Couldn't find %s", (*name).c_str());
       }
     }
   }
 
   ROS_INFO("New urdf:");
-  xml_doc_->Print();
+  xml_new_doc->Print();
 
-  // create an updated joitn state listener
-  createNewJointStateListener();
+  // create an updated joint state listener
+  res.success = createNewJointStateListener(xml_new_doc);
 
-  res.success = true;
+  if (res.success) {
+    xml_doc_ = xml_new_doc;
+  }
+
   return true;
 }
 
-void DynamicRobotStatePublisher::createNewJointStateListener()
+bool DynamicRobotStatePublisher::createNewJointStateListener(boost::shared_ptr<TiXmlDocument> urdf_xml)
 {
   ROS_INFO("Creating new joint state listener.");
 
   // create the urdf model from the xml document
   urdf::Model model;
-  model.initXml(xml_doc_.get());
+  if (!model.initXml(urdf_xml.get())) {
+    ROS_ERROR("Couldn't create urdf model from xml.");
+    return false;
+  }
 
-  ROS_INFO("debug3");
   // create the kdl tree from the model
   KDL::Tree tree;
   if (!kdl_parser::treeFromUrdfModel(model, tree))
   {
     ROS_ERROR("Failed to extract kdl tree from xml robot description");
-    return;
+    return false;
   }
 
-  ROS_INFO("debug4");
   MimicMap mimic;
   for (std::map< std::string, boost::shared_ptr< urdf::Joint > >::iterator i = model.joints_.begin(); i != model.joints_.end(); i++)
   {
@@ -117,8 +133,9 @@ void DynamicRobotStatePublisher::createNewJointStateListener()
     }
   }
 
-  ROS_INFO("debug6");
   joint_state_listener_.reset(new JointStateListener(tree, mimic));
+
+  return true;
 }
 
 TiXmlElement* DynamicRobotStatePublisher::find_child_with_attribute(TiXmlElement* first_child_element, const char *attribute, std::string value)
@@ -127,12 +144,9 @@ TiXmlElement* DynamicRobotStatePublisher::find_child_with_attribute(TiXmlElement
   std::string *attribute_value;
   while (sibling) 
   {
-    ROS_INFO("debug0");
-    //sibling->QueryStringAttribute(attribute, attribute_value); 
-    ROS_INFO("debug1");
     if (strcmp(sibling->Attribute(attribute), value.c_str()) == 0)
       return sibling;
-    ROS_INFO("debug2");
+
     sibling = sibling->NextSiblingElement();
   }
 

@@ -21,7 +21,7 @@ public:
 private:
   bool callbackAlterUrdf(dynamic_robot_state_publisher::AlterUrdf::Request &req,
     dynamic_robot_state_publisher::AlterUrdf::Response &res);
-  void createNewJointStateListener();
+  bool createNewJointStateListener(boost::shared_ptr<TiXmlDocument> urdf_xml);
   TiXmlElement* find_child_with_attribute(TiXmlElement* first_child_element, const char *attribute, std::string value); 
 
 	//ros::ServiceServer alter_urdf_sub_;

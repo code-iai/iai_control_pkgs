@@ -4,19 +4,12 @@ project(dynamic_robot_state_publisher)
 find_package(orocos_kdl REQUIRED) 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  message_generation
   robot_state_publisher
   kdl_parser)
-
-add_service_files(FILES
-    AlterUrdf.srv)
-
-generate_messages(DEPENDENCIES)
 
 catkin_package(
   CATKIN_DEPENDS 
     roscpp
-    message_runtime
     robot_state_publisher
     tinyxml)
 
