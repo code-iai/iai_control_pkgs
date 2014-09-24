@@ -10,8 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   CATKIN_DEPENDS 
     roscpp
-    robot_state_publisher
-    tinyxml)
+    robot_state_publisher)
 
 include_directories(
   ${catkin_INCLUDE_DIRS} 
