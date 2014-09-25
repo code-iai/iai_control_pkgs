@@ -32,4 +32,5 @@
   (:use #:common-lisp
         #:roslisp
         #:cl-urdf
-        #:urdf_management-srv))
+        #:urdf_management-srv)
+  (:export alter-urdf-service))

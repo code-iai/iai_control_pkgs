@@ -14,19 +14,20 @@
     (make-response :success success)))
 
 (defun alter-urdf-service ()
+  "Registers the service to alter the robot description."
   (setf *robot-model* (parse-urdf (get-param "robot_description")))
   (setf *urdf-pub* (advertise "/dynamic_robot_description" 'std_msgs-msg:String :latch t))
   (register-service "alter_urdf" 'AlterUrdf)
   (ros-info (urdf-management) "Ready to alter urdf."))
 
 (defun add-to-robot (xml)
+  "Adds the links and joints descripted to the robot model."
   (let ((parsed-xml (s-xml:parse-xml-string (format nil "<container>~a</container>" xml)
                                             :output-type :xml-struct))
         (link-descriptions nil)
         (joint-descriptions nil)
         (new-links nil)
         (new-joints nil))
-    (format t "XML: ~a" xml)
 
     ;; Get the descriptions of the joints and links from the xml
     (dolist (child (s-xml:xml-element-children parsed-xml))
@@ -66,18 +67,22 @@
     link))
 
 (defun add-link-to-robot (link)
+  "Adds the `link' to the robot model."
   (let ((link-table (links *robot-model*)))
     (setf (gethash (name link) link-table) link)))
 
 (defun create-joint (joint-desc)
+  "Parses the xml description of the joint. If it's a valid joint the joint is returned else nil."
   (let ((joint (cl-urdf::parse-xml-node :|joint| joint-desc *robot-model*)))
     joint))
 
 (defun add-joint-to-robot (joint)
+  "Adds the `joint' to the robot model."
   (let ((joint-table (joints *robot-model*)))
     (setf (gethash (name joint) joint-table) joint)))
 
 (defun remove-from-robot (names)
+  "Searches for links and joints with the given names in the robot model and removes them."
   (let ((link-table (links *robot-model*))
         (joint-table (joints *robot-model*)))
     (map 'vector (lambda (name)
@@ -87,4 +92,5 @@
     t))
 
 (defun publish-urdf ()
+  "Publsihes generates an urdf description from the robot model and publishes it."
   (publish-msg *urdf-pub* :data (generate-urdf-string *robot-model*)))
