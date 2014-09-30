@@ -17,6 +17,7 @@
   "Registers the service to alter the robot description."
   (setf *robot-model* (parse-urdf (get-param "robot_description")))
   (setf *urdf-pub* (advertise "/dynamic_robot_description" 'std_msgs-msg:String :latch t))
+  (publish-urdf)
   (register-service "alter_urdf" 'AlterUrdf)
   (ros-info (urdf-management) "Ready to alter urdf."))
 
