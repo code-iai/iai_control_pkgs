@@ -6,7 +6,7 @@
 
   :depends-on (:cl-urdf
                :roslisp
-               :urdf_management-srv
+               :iai_urdf_msgs-srv
                :std_msgs-msg
                :s-xml)
   :components
