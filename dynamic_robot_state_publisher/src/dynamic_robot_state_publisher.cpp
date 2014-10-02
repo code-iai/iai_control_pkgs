@@ -13,7 +13,7 @@ DynamicRobotStatePublisher::DynamicRobotStatePublisher()
   ros::NodeHandle nh("~");
 
   // create the subscriber
-  ros::Subscriber sub_ = nh.subscribe("in_topic", 100, &DynamicRobotStatePublisher::callbackDynamicRobotDiscription, this);
+  ros::Subscriber sub_ = nh.subscribe("in_topic", 100, &DynamicRobotStatePublisher::callbackDynamicRobotDescription, this);
   
   ros::spin();
 };
@@ -21,7 +21,7 @@ DynamicRobotStatePublisher::DynamicRobotStatePublisher()
 DynamicRobotStatePublisher::~DynamicRobotStatePublisher()
 {};
 
-void DynamicRobotStatePublisher::callbackDynamicRobotDiscription(const std_msgs::String::ConstPtr& robot_description)
+void DynamicRobotStatePublisher::callbackDynamicRobotDescription(const std_msgs::String::ConstPtr& robot_description)
 {
   ROS_INFO("Creating new joint state listener.");
 

@@ -18,7 +18,7 @@ public:
 	~DynamicRobotStatePublisher();
 
 private:
-  void callbackDynamicRobotDiscription(const std_msgs::String::ConstPtr& robot_description);
+  void callbackDynamicRobotDescription(const std_msgs::String::ConstPtr& robot_description);
   ros::Subscriber sub_;
   boost::shared_ptr<JointStateListener> joint_state_listener_;
 
