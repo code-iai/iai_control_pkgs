@@ -60,6 +60,8 @@
 
     ;; Get the descriptions of the joints and links from the xml
     (dolist (child (s-xml:xml-element-children parsed-xml))
+      (when (not (typep child 's-xml::xml-element))
+        (return-from add-to-robot nil))
       (case (s-xml:xml-element-name child)
         (:|link| (push child link-descriptions))
         (:|joint| (push child joint-descriptions))))
@@ -86,9 +88,9 @@
     
     ;; Add the new joints to the robot-model
     (dolist (joint new-joints)
-      (add-joint-to-robot joint)))
+      (add-joint-to-robot joint))
 
-  t)
+    t))
 
 (defun create-link (link-desc)
   "Parses the xml description of the link. If it's a valid link the link is returned else nil."
