@@ -28,6 +28,9 @@
 
 (in-package :urdf-management)
 
+(defparameter *default-description* "<robot name=\"default\"><link name=\"root_link\"/></robot>"
+  "The robot description that is used if there is no description on the parameter server.")
+
 (defvar *robot-model* nil)
 (defvar *urdf-pub* nil)
 
@@ -43,7 +46,7 @@
 
 (defun alter-urdf-service ()
   "Registers the service to alter the robot description."
-  (setf *robot-model* (parse-urdf (get-param "robot_description")))
+  (setf *robot-model* (parse-urdf (get-param "robot_description" *default-description*)))
   (setf *urdf-pub* (advertise "/dynamic_robot_description" 'std_msgs-msg:String :latch t))
   (publish-urdf)
   (register-service "alter_urdf" 'AlterUrdf)
