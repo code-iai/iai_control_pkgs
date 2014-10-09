@@ -34,22 +34,23 @@
 (defvar *robot-model* nil)
 (defvar *urdf-pub* nil)
 
-(def-service-callback AlterUrdf (action xml_elements_to_add element_names_to_remove)
+(def-exec-callback alter-urdf-callback (action xml_elements_to_add element_names_to_remove)
   (ros-info (urdf-management) "Altering robot description.")
   (let ((success (cond
-                   ((eql action (symbol-code 'iai_urdf_msgs-srv:alterurdf-request :add))
+                   ((eql action (symbol-code 'iai_urdf_msgs-msg:alterurdfgoal :add))
                     (add-to-robot xml_elements_to_add))
-                   ((eql action (symbol-code 'iai_urdf_msgs-srv:alterurdf-request :remove))
+                   ((eql action (symbol-code 'iai_urdf_msgs-msg:alterurdfgoal :remove))
                     (remove-from-robot element_names_to_remove)))))
     (when success (publish-urdf))
-    (make-response :success success)))
+    (succeed-current :success success)))
 
-(defun alter-urdf-service ()
+(defun alter-urdf-server ()
   "Registers the service to alter the robot description."
   (setf *robot-model* (parse-urdf (get-param "robot_description" *default-description*)))
   (setf *urdf-pub* (advertise "/dynamic_robot_description" 'std_msgs-msg:String :latch t))
   (publish-urdf)
-  (register-service "alter_urdf" 'AlterUrdf)
+  ;;(register-service "alter_urdf" 'AlterUrdf)
+  (start-action-server "alterurdf" "iai_urdf_msgs/AlterUrdfAction" #'alter-urdf-callback)
   (ros-info (urdf-management) "Ready to alter urdf."))
 
 (defun add-to-robot (xml)
