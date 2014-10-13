@@ -98,7 +98,7 @@
 
 (defun create-link (link-desc)
   "Parses the xml description of the link. If it's a valid link the link is returned else nil."
-  (let ((link (cl-urdf::parse-xml-node :|link| link-desc)))
+  (let ((link (cl-urdf::parse-xml-node :|link| link-desc *robot-model*)))
     link))
 
 (defun add-link-to-robot (link)
