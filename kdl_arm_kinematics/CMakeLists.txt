@@ -29,3 +29,4 @@ add_executable(arm_kinematics
 target_link_libraries(arm_kinematics 
   ${catkin_LIBRARIES}
   ${orocos_kdl_LIBRARIES})
+add_dependencies(arm_kinematics ${catkin_EXPORTED_TARGETS})

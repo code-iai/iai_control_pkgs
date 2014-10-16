@@ -33,5 +33,3 @@
   <run_depend>orocos_kdl</run_depend>
   <run_depend>iai_kinematics_msgs</run_depend>
 </package>
-
-
