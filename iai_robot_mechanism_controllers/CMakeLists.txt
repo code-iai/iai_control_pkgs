@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   pluginlib
   roscpp
   std_msgs
+  iai_control_msgs
   pr2_controller_interface
   pr2_mechanism_model
   pr2_mechanism_controllers
@@ -31,7 +32,8 @@ include_directories(
  
 add_library(${PROJECT_NAME}
   src/rosie_odometry.cpp
-  src/multi_joint_velocity_controller.cpp)
+  src/multi_joint_velocity_controller.cpp
+  src/multi_joint_velocity_impedance_controller.cpp)
 
 target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES})

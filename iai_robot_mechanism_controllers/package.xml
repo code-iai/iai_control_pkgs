@@ -14,7 +14,6 @@
 
   <license>BSD</license>
 
-  <!-- <url type="website">http://ros.org/wiki/fccl_control</url> -->
   <url type="bugtracker">https://github.com/code-iai/iai_robot_mechanism_controllers/issues</url>
   <url type="repository">https://github.com/code-iai/iai_robot_mechanism_controllers</url>
 
@@ -24,6 +23,7 @@
   <build_depend>roscpp</build_depend>
   <build_depend>boost</build_depend>
   <build_depend>std_msgs</build_depend>
+  <build_depend>iai_control_msgs</build_depend>
   <build_depend>pr2_controller_interface</build_depend>
   <build_depend>pr2_mechanism_model</build_depend>
   <build_depend>pr2_mechanism_controllers</build_depend>
@@ -38,6 +38,7 @@
   <run_depend>roscpp</run_depend>
   <run_depend>boost</run_depend>
   <run_depend>std_msgs</run_depend>
+  <run_depend>iai_control_msgs</run_depend>
   <run_depend>pr2_controller_interface</run_depend>
   <run_depend>pr2_mechanism_model</run_depend>
   <run_depend>pr2_mechanism_controllers</run_depend>
