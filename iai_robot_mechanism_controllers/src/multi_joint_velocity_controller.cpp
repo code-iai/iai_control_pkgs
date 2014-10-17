@@ -172,8 +172,8 @@ void MultiJointVelocityController::update()
 
   for (size_t i = 0; i < joints_.size(); ++i)
   {
-    error[i] = joints_[i]->velocity_ - command[i];
-    double effort = pids_[i].updatePid(error[i], dt);
+    error[i] = command[i] - joints_[i]->velocity_;
+    double effort = pids_[i].computeCommand(error[i], dt);
     double effort_filtered = effort;
     if (output_filters_[i])
       output_filters_[i]->update(effort, effort_filtered);
