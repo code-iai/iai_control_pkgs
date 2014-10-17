@@ -19,8 +19,12 @@ add_executable(human_visualization
   src/iai_visualization/human_visualization.cpp)
 target_link_libraries(human_visualization
   ${catkin_LIBRARIES})
+add_dependencies(human_visualization ${catkin_EXPORTED_TARGETS})
+
 
 add_executable(equipment_visualization 	
   src/iai_visualization/equipment_visualization.cpp)
 target_link_libraries(equipment_visualization 	
   ${catkin_LIBRARIES})
+add_dependencies(equipment_visualization ${catkin_EXPORTED_TARGETS})
+
