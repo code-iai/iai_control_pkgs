@@ -64,7 +64,6 @@ JointStateListener::JointStateListener(const KDL::Tree& tree, const MimicMap& m)
 
 JointStateListener::~JointStateListener() 
 {
-  ROS_INFO("Destroy JointStateListener");
 };
 
 void JointStateListener::callbackFixedJoint(const ros::TimerEvent& e)

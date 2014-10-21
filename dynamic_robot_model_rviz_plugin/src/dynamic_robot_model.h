@@ -15,6 +15,9 @@ class SceneNode;
 namespace rviz
 {
 class RosTopicProperty;
+class FloatProperty;
+class Property;
+class StringProperty;
 class Robot;
 }
 
@@ -27,25 +30,36 @@ Q_OBJECT
 public:
   DynamicRobotModel();
   virtual ~DynamicRobotModel();
-  //virtual void update( float wall_dt, float ros_dt );
+  virtual void update( float wall_dt, float ros_dt );
+
+private Q_SLOTS:
+  virtual void updateTopic();
+  virtual void updateVisualVisible();
+  virtual void updateCollisionVisible();
+  //virtual void updateTfPrefix();
+  virtual void updateAlpha();
 
 protected:
   virtual void onInitialize();
   virtual void onEnable();
-
-  rviz::Robot* robot_;
-
-private Q_SLOTS:
-  virtual void updateTopic();
-
-private:
+  virtual void onDisable();
   virtual void processMessage( const std_msgs::String::ConstPtr& msg );
   virtual void updateRobot();
   virtual void subscribe();
 
-  rviz::RosTopicProperty* robot_description_topic_property_;
+  rviz::Robot* robot_;
+
+  float time_since_last_transform_;
+
   std::string robot_description_;
+
   ros::Subscriber sub_;
+
+  rviz::RosTopicProperty* robot_description_topic_property_;
+  rviz::Property* visual_enabled_property_;
+  rviz::Property* collision_enabled_property_;
+  rviz::FloatProperty* update_rate_property_;
+  rviz::FloatProperty* alpha_property_;
 
 };
 }
