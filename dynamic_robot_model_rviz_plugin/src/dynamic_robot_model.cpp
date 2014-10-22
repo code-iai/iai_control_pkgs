@@ -29,17 +29,17 @@
 
 #include <ros/ros.h>
 #include "std_msgs/String.h"
-#include "tinyxml.h"
 #include <urdf/model.h>
+
 #include <OgreSceneNode.h>
 #include "rviz/properties/ros_topic_property.h"
 #include "rviz/properties/float_property.h"
 #include "rviz/properties/property.h"
 #include "rviz/properties/string_property.h"
 #include "rviz/robot/robot.h"
-#include "rviz/display.h"
 #include "rviz/display_context.h"
 #include "rviz/robot/tf_link_updater.h"
+
 #include "dynamic_robot_model.h"
 
 
@@ -82,6 +82,11 @@ DynamicRobotModel::DynamicRobotModel()
                                                                   QString::fromStdString( ros::message_traits::datatype<std_msgs::String>() ),
                                                                   "std_msgs::String topic to subscribe to.",
                                                                   this, SLOT( updateTopic() ));
+
+  tf_prefix_property_ = new rviz::StringProperty( "TF Prefix", "",
+                                                  "Robot Model normally assumes the link name is the same as the tf frame name. "
+                                                  " This option allows you to set a prefix. Mainly useful for multi-robot situations.",
+                                                  this, SLOT( updateTfPrefix() ));
 }
 
 DynamicRobotModel::~DynamicRobotModel()
@@ -117,7 +122,7 @@ void DynamicRobotModel::update( float wall_dt, float ros_dt )
   {
     robot_->update( rviz::TFLinkUpdater( context_->getFrameManager(),
                                          boost::bind( linkUpdaterStatusFunction, _1, _2, _3, this ),
-                                         "" ));  //tf_prefix_property_->getStdString() ));
+                                         tf_prefix_property_->getStdString() ));
     context_->queueRender();
     time_since_last_transform_ = 0.0f;
   }
@@ -150,10 +155,6 @@ void DynamicRobotModel::updateRobot()
 
   setStatus( rviz::StatusProperty::Ok, "URDF", "URDF parsed OK" );
   robot_->load( descr );
-  robot_->update( rviz::TFLinkUpdater( context_->getFrameManager(),
-                                       boost::bind( linkUpdaterStatusFunction, _1, _2, _3, this ),
-                                       "" ));
-
   context_->queueRender();
 }
 
@@ -172,6 +173,12 @@ void DynamicRobotModel::updateVisualVisible()
 void DynamicRobotModel::updateCollisionVisible()
 {
   robot_->setCollisionVisible( collision_enabled_property_->getValue().toBool() );
+  context_->queueRender();
+}
+
+void DynamicRobotModel::updateTfPrefix()
+{
+  clearStatuses();
   context_->queueRender();
 }
 

@@ -36,7 +36,7 @@ private Q_SLOTS:
   virtual void updateTopic();
   virtual void updateVisualVisible();
   virtual void updateCollisionVisible();
-  //virtual void updateTfPrefix();
+  virtual void updateTfPrefix();
   virtual void updateAlpha();
 
 protected:
@@ -60,6 +60,7 @@ protected:
   rviz::Property* collision_enabled_property_;
   rviz::FloatProperty* update_rate_property_;
   rviz::FloatProperty* alpha_property_;
+  rviz::StringProperty* tf_prefix_property_;
 
 };
 }
