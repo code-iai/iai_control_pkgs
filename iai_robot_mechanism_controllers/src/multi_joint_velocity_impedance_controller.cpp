@@ -166,10 +166,17 @@ void MultiJointVelocityImpedanceController::update()
     command[i] = command_[i];
   guard.unlock();
 
+  bool watchdog_active = ( (time - watchdog_time_) > watchdog_period );
+  if (watchdog_active) {
+
+    // set desired velocities to zero to stop joints
+    for (size_t i = 0; i < joints_.size(); ++i)
+    {
+      command[i] = 0.0;
+    }
+  }
 
   double error[joints_.size()];
-
-
   for (size_t i = 0; i < joints_.size(); ++i)
   {
     error[i] = command[i] - joints_[i]->velocity_;
@@ -179,25 +186,6 @@ void MultiJointVelocityImpedanceController::update()
       output_filters_[i]->update(effort, effort_filtered);
     joints_[i]->commanded_effort_ += effort_filtered;
   }
-
-
-  bool watchdog_active = ( (time - watchdog_time_) > watchdog_period );
-  if (watchdog_active) {
-
-	  //turn the arms off (all efforts to zero)
-	  for (size_t i = 0; i < joints_.size(); ++i) {
-		  joints_[i]->commanded_effort_ = 0.0;
-	  }
-
-	  //reset the state (mainly the integral accumulator) of the PIDs
-	  for (size_t i = 0; i < pids_.size(); ++i)
-	    pids_[i].reset();
-
-	  //Reset the stored last command
-	  for(unsigned int i=0; i < command_.size(); ++i)
-	  	    command_[i] = 0.0;
-  }
-
 
   // ------ State publishing
 
