@@ -49,7 +49,7 @@
 #include <pr2_controller_interface/controller.h>
 #include <realtime_tools/realtime_publisher.h>
 
-#include <std_msgs/Float64MultiArray.h>
+#include <iai_control_msgs/MultiJointVelocityCommand.h>
 #include <pr2_controllers_msgs/JointTrajectoryControllerState.h>
 
 
@@ -57,7 +57,8 @@
 namespace controller {
 
 
-class MultiJointVelocityController : public pr2_controller_interface::Controller
+class MultiJointVelocityController : 
+  public pr2_controller_interface::Controller
 {
 public:
 
@@ -80,7 +81,7 @@ private:
 
   ros::NodeHandle node_;
 
-  void commandCB(const std_msgs::Float64MultiArray::ConstPtr &msg);
+  void commandCB(const iai_control_msgs::MultiJointVelocityCommand::ConstPtr &msg);
   ros::Subscriber sub_command_;
 
   boost::scoped_ptr<

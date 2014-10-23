@@ -49,7 +49,7 @@
 #include <pr2_controller_interface/controller.h>
 #include <realtime_tools/realtime_publisher.h>
 
-#include <iai_control_msgs/JointVelocityImpedanceCommand.h>
+#include <iai_control_msgs/MultiJointVelocityImpedanceCommand.h>
 #include <pr2_controllers_msgs/JointTrajectoryControllerState.h>
 
 
@@ -80,7 +80,7 @@ private:
 
   ros::NodeHandle node_;
 
-  void commandCB(const iai_control_msgs::JointVelocityImpedanceCommand::ConstPtr &msg);
+  void commandCB(const iai_control_msgs::MultiJointVelocityImpedanceCommand::ConstPtr &msg);
   ros::Subscriber sub_command_;
 
   boost::scoped_ptr<

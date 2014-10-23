@@ -220,16 +220,22 @@ void MultiJointVelocityController::update()
   ++loop_count_;
 }
 
-void MultiJointVelocityController::commandCB(const std_msgs::Float64MultiArray::ConstPtr &msg)
+void MultiJointVelocityController::commandCB(
+    const iai_control_msgs::MultiJointVelocityCommand::ConstPtr &msg)
 {
   boost::mutex::scoped_lock guard(command_mutex_);
-  for(unsigned int i=0; i < command_.size(); ++i)
-    command_[i] = msg->data[i];
+  if(command_.size() == msg->velocity.size())
+  {
+    for(unsigned int i=0; i < command_.size(); ++i)
+      command_[i] = msg->velocity[i];
 
-  watchdog_time_ = robot_->getTime();
+      watchdog_time_ = robot_->getTime();
+  }
+  else
+  {
+    ROS_ERROR("Velocity command vector has invalid length. Expected: %lu, received: %lu.", 
+      command_.size(), msg->velocity.size());
+  }
 }
-
-
-
 
 }

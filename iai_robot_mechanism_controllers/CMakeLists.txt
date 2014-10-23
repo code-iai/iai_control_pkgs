@@ -4,7 +4,6 @@ project(iai_robot_mechanism_controllers)
 find_package(catkin REQUIRED COMPONENTS 
   pluginlib
   roscpp
-  std_msgs
   iai_control_msgs
   pr2_controller_interface
   pr2_mechanism_model
@@ -21,7 +20,7 @@ find_package(Boost REQUIRED COMPONENTS thread)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS std_msgs nav_msgs pr2_mechanism_msgs
+  CATKIN_DEPENDS iai_control_msgs nav_msgs pr2_mechanism_msgs
 #  DEPENDS Boost TODO
 )
 

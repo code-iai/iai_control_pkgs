@@ -221,7 +221,7 @@ void MultiJointVelocityImpedanceController::update()
 }
 
 void MultiJointVelocityImpedanceController::commandCB(
-  const iai_control_msgs::JointVelocityImpedanceCommand::ConstPtr &msg)
+  const iai_control_msgs::MultiJointVelocityImpedanceCommand::ConstPtr &msg)
 {
   boost::mutex::scoped_lock guard(command_mutex_);
   if(command_.size() == msg->velocity.size())
