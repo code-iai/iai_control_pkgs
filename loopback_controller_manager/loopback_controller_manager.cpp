@@ -216,9 +216,7 @@ void LoopbackControllerManager::simulateJoints()
     pr2_mechanism_model::JointState &s = state_->joint_states_[i];
     const boost::shared_ptr<urdf::JointDynamics> dynamics = state_->joint_states_[i].joint_->dynamics;
 
-    // use damping from urdf (if specified)
-    double damp = (dynamics) ? dynamics->damping : damping_;
-    double effort = s.commanded_effort_ - damp*s.velocity_;
+    double effort = s.commanded_effort_ - damping_*s.velocity_;
 
     double dv = effort/mass_*dt_;
     s.velocity_ += dv;
