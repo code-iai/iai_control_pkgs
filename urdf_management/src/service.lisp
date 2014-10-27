@@ -28,11 +28,15 @@
 
 (in-package :urdf-management)
 
-(defparameter *default-description* "<robot name=\"default\"><link name=\"root_link\"/></robot>"
+(defparameter *default-description* "<robot name=\"default\"><link name=\"base_link\"/></robot>"
   "The robot description that is used if there is no description on the parameter server.")
 
 (defvar *robot-model* nil)
 (defvar *urdf-pub* nil)
+
+(defun start-urdf-management ()
+  (with-ros-node ("urdf_management" :spin t)
+    (alter-urdf-service)))
 
 (def-service-callback AlterUrdf (action xml_elements_to_add element_names_to_remove)
   (ros-info (urdf-management) "Altering robot description.")

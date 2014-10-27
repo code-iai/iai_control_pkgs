@@ -33,4 +33,5 @@
         #:roslisp
         #:cl-urdf
         #:iai_urdf_msgs-srv)
-  (:export alter-urdf-service))
+  (:export alter-urdf-service
+           start-urdf-management))
