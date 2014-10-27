@@ -24,9 +24,10 @@ Start controller for the joints and set the robot_description parameter to the p
   * ```roslaunch loopback_controller_manager_examples pr2_all_controllers_simulation_dynamic_state.launch```
 
 Start the urdf management service in a new terminal:
+  * ```roscd urdf_management
   * ```rosrun urdf_management urdf_management_service```
 
-Start rviz in new terminal:
+Start rviz in a new terminal:
   * ```rosrun rviz rviz```
 
 In rviz,
