@@ -32,5 +32,5 @@
   (:use #:common-lisp
         #:roslisp
         #:cl-urdf
-        #:actionlib)
-  (:export alter-urdf-server))
+        #:iai_urdf_msgs-srv)
+  (:export alter-urdf-service))
