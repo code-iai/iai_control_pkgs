@@ -1,0 +1,14 @@
+#!/bin/bash
+ROS_SBCL_PATH=`rospack find sbcl`
+ROSLISP_PATH=`rospack find roslisp`
+if [ -z "$ROSLISP_PATH" ]; then
+  echo "roslisp not found"
+  exit 1
+fi
+if [ -n "$ROS_SBCL_PATH" ]; then
+  SBCL=/scripts/run-sbcl.sh
+else
+  SBCL=sbcl
+fi
+
+ROSLISP_CURRENT_PACKAGE=urdf_management_tutorial $SBCL --noinform --end-runtime-options --noprint --no-userinit --disable-debugger --load $ROSLISP_PATH/scripts/roslisp-sbcl-init --load scripts/remove_spatula.lisp --end-toplevel-options $*
