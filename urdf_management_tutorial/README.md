@@ -2,8 +2,6 @@
 
 
 ## Installation
-First, make sure you have the following packages installed:
-  * apt-get install TODO figure out which packages are needed
 
 Chekcout the following repos into your workspace:
   * https://github.com/code-iai/iai_control_pkgs
