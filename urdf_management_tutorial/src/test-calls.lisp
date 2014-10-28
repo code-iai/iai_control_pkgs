@@ -34,6 +34,30 @@
 (defun remove-spatula ()
   (alter-urdf 2 "" (vector "joint_spatula" "spatula")))
 
+(defun remove-left-gripper () 
+  (alter-urdf 2 "" (vector "l_gripper_l_finger_link"          ;;links
+                           "l_gripper_l_finger_tip_frame"
+                           "l_gripper_l_finger_tip_link"
+                           "l_gripper_led_frame"
+                           "l_gripper_motor_accelerometer_link"
+                           "l_gripper_motor_screw_link"
+                           "l_gripper_motor_slider_link"
+                           "l_gripper_palm_link"
+                           "l_gripper_r_finger_link"
+                           "l_gripper_r_finger_tip_link"
+                           "l_gripper_tool_frame"
+                           "l_gripper_l_finger_joint"          ;;joints
+                           "l_gripper_r_finger_joint"
+                           "l_gripper_l_finger_tip_joint"
+                           "l_gripper_r_finger_tip_joint"
+                           "l_gripper_palm_joint"
+                           "l_gripper_led_joint"
+                           "l_gripper_motor_accelerometer_joint"
+                           "l_gripper_tool_joint"
+                           "l_gripper_motor_slider_joint"
+                           "l_gripper_motor_screw_joint"
+                           "l_gripper_joint")))
+
 (defun alter-urdf (action-id add remove)
   (with-ros-node ("urdf_management_tutorial")
     (ros-info "urdf_mangement_tutorial" "Action: ~a" action-id)

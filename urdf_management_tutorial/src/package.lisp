@@ -35,4 +35,5 @@
         #:cram-pr2-controllers)
   (:export add-spatula
            remove-spatula
+           remove-left-gripper
            move-to-grasp-position))
