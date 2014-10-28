@@ -35,7 +35,8 @@ In rviz,
   * add a plugin of type ```DynamicRobotModel```
 
 You should see the PR2 in rviz like you would with the normal RobotModel:
-![rviz view](https://raw.github.com/jannikb/iai_control_pkgs/urdf/urdf_management_tutorial/doc/pr2.png)
+
+![rviz view](doc/pr2.png)
 
 
 ## Adding and removing a link
@@ -44,10 +45,21 @@ To add a link type in a new terminal:
   * ```scripts/add_spatula```
 
 In rviz you should now be able to see a spatula in the left gripper of the PR2.
-![rviz view](https://raw.github.com/jannikb/iai_control_pkgs/urdf/urdf_management_tutorial/doc/pr2_with_spatula.png)
+
+![rviz view](doc/pr2_with_spatula.png)
+![rviz view](doc/pr2_spatula_tf.png)
 
 The spatula is now part of the robot description and connected to the left gripper via a fixed joint. To see the arm moving with the spatula in the gripper type:
   * ```scripts/move_arm```
 
+![rviz view](doc/pr2_moved_arm.png)
+
 After you added the spatula you can remove it again by typing:
   * ```scripts/remove_spatula```
+
+You can also remove parts of the initial robot description. To remove the left gripper type:
+ * ```scripts/remove_left_gripper```
+
+![rviz view](doc/pr2_no_left_gripper.png)
+
+Note that the parsing of the urdf will fail when you remove the gripper but still had the spatula attached.
