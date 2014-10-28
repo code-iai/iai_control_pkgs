@@ -3,7 +3,7 @@
 
 ## Installation
 
-Chekcout the following repos into your workspace:
+Checkout the following repos into your workspace:
   * https://github.com/code-iai/iai_control_pkgs
   * https://github.com/code-iai/iai_common_msgs
   * https://github.com/cram-code/cram_physics.git 
