@@ -6,7 +6,9 @@ find_package(catkin REQUIRED COMPONENTS
   urdf 
   pr2_hardware_interface
   pr2_controller_manager
-  pr2_mechanism_model)
+  pr2_mechanism_model
+  nav_msgs
+  tf)
 
 find_package(Boost REQUIRED COMPONENTS thread)
 
@@ -17,9 +19,11 @@ include_directories(
   ${Boost_INCLUDE_DIRS})
 
 add_executable(${PROJECT_NAME} loopback_controller_manager.cpp)
-
 target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES})
+
+add_executable(odometry_simulation odometry_simulation.cpp)
+target_link_libraries(odometry_simulation ${catkin_LIBRARIES})
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
