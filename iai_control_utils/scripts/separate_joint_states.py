@@ -20,7 +20,6 @@
 
 # Simple idea, read on the joint_state topic, load data in a map, and output to separate joint_state topics for each device
 
-import roslib;
 import rospy
 from rospy.numpy_msg import numpy_msg
 import numpy

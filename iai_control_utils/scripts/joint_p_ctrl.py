@@ -20,7 +20,6 @@
 
 # Simple idea, read on the joint_state topic, and for each message received, answer with des velocities
 
-import roslib;
 import rospy
 from rospy.numpy_msg import numpy_msg
 import numpy
