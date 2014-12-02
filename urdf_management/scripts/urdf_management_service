@@ -1,6 +1,6 @@
 #!/bin/bash
 ROS_SBCL_PATH=`rospack find sbcl`
-ROSLISP_PATH=`rospack find roslisp`
+export ROSLISP_PATH=`rospack find roslisp`
 if [ -z "$ROSLISP_PATH" ]; then
   echo "roslisp not found"
   exit 1

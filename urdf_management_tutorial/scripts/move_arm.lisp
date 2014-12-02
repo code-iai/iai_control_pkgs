@@ -7,7 +7,7 @@
                  (CALL-NEXT-METHOD))))
 (PUSH :ROSLISP-STANDALONE-EXECUTABLE *FEATURES*)
 (DECLAIM (MUFFLE-CONDITIONS COMPILER-NOTE))
-(PUSH #P"/home/jannikbu/actionlib_ws/src/roslisp/asdf/" ASDF:*CENTRAL-REGISTRY*)
+(PUSH (pathname (format nil "~a~a" (sb-unix::posix-getenv "ROSLISP_PATH") "/asdf/")) ASDF:*CENTRAL-REGISTRY*)
 (DEFUN ROSLISP-DEBUGGER-HOOK (CONDITION ME)
   (DECLARE (IGNORE ME))
   (FLET ((FAILURE-QUIT (&KEY RECKLESSLY-P)
