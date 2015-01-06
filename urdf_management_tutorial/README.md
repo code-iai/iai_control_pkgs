@@ -6,12 +6,17 @@
 Checkout the following repos into your workspace:
   * https://github.com/code-iai/iai_control_pkgs
   * https://github.com/code-iai/iai_common_msgs
-  * https://github.com/cram-code/cram_physics.git 
+  * https://github.com/cram-code/cram_physics
+  * https://github.com/cram-code/cram_highlevel
 
 Additional repos required only for this tutorial:
   * https://github.com/cram-code/cram_bridge.git
+  * https://github.com/cram-code/cl_robotics_libs
+  * https://github.com/code-iai/iai_robots
 
-Build them all by running ```catkin_make```
+Note, some of these repos are still on rosbuild.
+
+Build all the catkin packages by running ```catkin_make```
 
 
 ## Start-up
