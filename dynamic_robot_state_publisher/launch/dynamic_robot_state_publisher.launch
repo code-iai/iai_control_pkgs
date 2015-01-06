@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="dynamic_robot_state_publisher" type="dynamic_robot_state_publisher" 
+      name="dynamic_robot_state_publisher" output="screen">
+    <remap from="~in_topic" to="/dynamic_robot_description"/>
+    <remap from="~joint_states" to="/joint_states"/>
+  </node>
+</launch>
