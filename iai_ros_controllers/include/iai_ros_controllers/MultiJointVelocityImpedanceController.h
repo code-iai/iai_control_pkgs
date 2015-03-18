@@ -10,6 +10,7 @@
 #include <string>
 #include <iai_control_msgs/MultiJointVelocityImpedanceCommand.h>
 #include <iai_control_msgs/MultiJointVelocityImpedanceState.h>
+#include <iai_ros_controllers/Watchdog.h>
 
 namespace iai_ros_controllers
 {
@@ -37,20 +38,23 @@ namespace iai_ros_controllers
 
     private:
       ros::Subscriber cmd_sub_;
+
       realtime_tools::RealtimePublisher<iai_control_msgs::MultiJointVelocityImpedanceState> 
         state_pub_;
       ros::Duration state_publisher_period_;
-//TODO: init last_update_time_
-      ros::Time last_state_publish_time_, last_update_time_;
+      ros::Time last_state_publish_time_;
 
       std::vector<std::string> joint_names_;
       std::vector<hardware_interface::ImpedanceJointHandle> joints_;
       double default_stiffness_, default_damping_;
-      realtime_tools::RealtimeBox<MultiJointVelocityImpedanceCommand> cmd_buffer_;
-      MultiJointVelocityImpedanceCommand tmp_cmd_;
-      realtime_tools::RealtimeBox<ros::Time> time_buffer_;
 
-      // TODO: add watchdog
+      realtime_tools::RealtimeBox<MultiJointVelocityImpedanceCommand> cmd_buffer_;
+      realtime_tools::RealtimeBox<ros::Time> time_buffer_;
+      MultiJointVelocityImpedanceCommand tmp_cmd_;
+      ros::Time tmp_now_;
+
+      Watchdog watchdog_;
+
       void callback(const iai_control_msgs::MultiJointVelocityImpedanceCommandConstPtr& msg);
       void initStatePublisher(const ros::NodeHandle& nh);
   };

@@ -48,7 +48,22 @@ namespace iai_ros_controllers
     }
 
     state_publisher_period_ = ros::Duration(1.0 / state_publish_rate);
- 
+
+    double watchdog_period;
+    if(!nh.getParam("watchdog_period", watchdog_period))
+    {
+      ROS_ERROR_STREAM("Failed to getParam 'watchdog_period' (namespace: " << nh.getNamespace() << ").");
+      return false;
+    }
+
+    if(watchdog_period <= 0.0)
+    {
+      ROS_ERROR_STREAM("Watchdog period is not greater than 0.");
+      return false;
+    }
+
+    watchdog_.setPeriod(ros::Duration(watchdog_period));
+
     for(unsigned int i=0; i<joint_names_.size(); i++)
     {
       try
@@ -88,6 +103,17 @@ namespace iai_ros_controllers
     time_buffer_.set(time);
     cmd_buffer_.get(tmp_cmd_);
 
+    if(watchdog_.isActive(time))
+    {
+      ROS_WARN_STREAM("Watchdog active.");
+      for(unsigned int i=0; i<joint_names_.size(); i++)
+      {
+        tmp_cmd_.velocities_[i] = 0.0; 
+        tmp_cmd_.stiffnesses_[i] = default_stiffness_; 
+        tmp_cmd_.dampings_[i] = default_damping_; 
+      }
+    }
+    
     // send commands to hardware
     for(unsigned int i=0; i<joint_names_.size(); i++)
     { 
@@ -114,6 +140,9 @@ namespace iai_ros_controllers
   void MJVIC::callback(const iai_control_msgs::MultiJointVelocityImpedanceCommandConstPtr& msg)
   {
     ROS_WARN_STREAM("Received a command callback, ignoring.");
+    time_buffer_.get(tmp_now_);
+    watchdog_.update(tmp_now_);
+
     //TODO: implement me
   }
 
