@@ -26,4 +26,10 @@
   <!-- start joint_states to tf transformer -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="log" />
 
+  <!-- Note: "pr2_default_controllers.launch" from "pr2_controller_configuration" waits for the
+       value true of type "std_msgs/Bool" to be published on topic "/calibrated".
+       Since we are in simulation and we don't need calibration we fake this flag. -->
+  <node pkg="rostopic" type="rostopic" name="$(anon rostopic)"
+        args="pub calibrated std_msgs/Bool true" output="screen" /> 
+ 
 </launch>
