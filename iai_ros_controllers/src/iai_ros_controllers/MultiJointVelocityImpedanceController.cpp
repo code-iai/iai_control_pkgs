@@ -29,14 +29,12 @@ namespace iai_ros_controllers
       ROS_ERROR_STREAM("Failed to getParam 'default_stiffness_' (namespace: " << nh.getNamespace() << ").");
       return false;
     }
-    ROS_INFO_STREAM(nh_.getNamespace() << ": default_stiffness: " << default_stiffness_);
 
     if(!nh.getParam("default_damping", default_damping_))
     {
       ROS_ERROR_STREAM("Failed to getParam 'default_damping_' (namespace: " << nh.getNamespace() << ").");
       return false;
     }
-    ROS_INFO_STREAM(nh_.getNamespace() << ": default_damping: " << default_damping_);
 
     double state_publish_rate;
     if(!nh.getParam("state_publish_rate", state_publish_rate))
@@ -52,7 +50,6 @@ namespace iai_ros_controllers
     }
 
     state_publisher_period_ = ros::Duration(1.0 / state_publish_rate);
-    ROS_INFO_STREAM(nh_.getNamespace() << ": state_publish_rate: " << state_publish_rate);
 
     double watchdog_period;
     if(!nh.getParam("watchdog_period", watchdog_period))
@@ -68,7 +65,6 @@ namespace iai_ros_controllers
     }
 
     watchdog_.setPeriod(ros::Duration(watchdog_period));
-    ROS_INFO_STREAM(nh_.getNamespace() << ": watchdog_period: " << watchdog_period);
 
     for(unsigned int i=0; i<joint_names_.size(); i++)
     {
@@ -94,11 +90,18 @@ namespace iai_ros_controllers
 
     initStatePublisher(nh);
 
+    ROS_DEBUG_STREAM(nh_.getNamespace() << ": watchdog_period: " << watchdog_period << 
+                                           ", state_publish_rate: " << state_publish_rate <<
+                                           ", default_damping: " << default_damping_ <<
+                                           ", default_stiffness: " << default_stiffness_);
+
     return true;
   }
 
   void MJVIC::starting(const ros::Time& time)
   {
+    ROS_DEBUG_STREAM(nh_.getNamespace() << ": started controller.");
+
     last_state_publish_time_ = time;
     time_buffer_.set(time);
     if(watchdog_.isActive(time))
@@ -135,9 +138,12 @@ namespace iai_ros_controllers
 
     if(watchdog_.isActive(time))
     {
+      ROS_DEBUG_STREAM(nh_.getNamespace() << ": watchdog active.");
+
       if(!watchdog_.isActive(time-period))
         ROS_WARN_STREAM(nh_.getNamespace() << ": watchdog activated.");
 
+      // zero commands
       for(unsigned int i=0; i<joint_names_.size(); i++)
       {
         tmp_cmd_.velocities_[i] = 0.0; 
@@ -171,7 +177,7 @@ namespace iai_ros_controllers
 
   void MJVIC::callback(const iai_control_msgs::MultiJointVelocityImpedanceCommandConstPtr& msg)
   {
-    ROS_WARN_STREAM("Received a command callback, ignoring.");
+    ROS_DEBUG_STREAM(nh_.getNamespace() << ": Received a command callback.");
 
     time_buffer_.get(tmp_now_);
 
