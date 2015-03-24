@@ -52,7 +52,7 @@ namespace iai_ros_controllers
 
       realtime_tools::RealtimeBox<MultiJointVelocityImpedanceCommand> cmd_buffer_;
       realtime_tools::RealtimeBox<ros::Time> time_buffer_;
-      MultiJointVelocityImpedanceCommand tmp_cmd_;
+      MultiJointVelocityImpedanceCommand tmp_cmd_rt_, tmp_cmd_non_rt_;
       ros::Time tmp_now_;
 
       Watchdog watchdog_;

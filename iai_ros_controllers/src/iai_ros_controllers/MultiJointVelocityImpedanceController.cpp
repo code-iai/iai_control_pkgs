@@ -79,9 +79,10 @@ namespace iai_ros_controllers
       }
     }
 
-    tmp_cmd_ = MJVICommand(joint_names_.size(), 0.0, 
+    tmp_cmd_rt_ = MJVICommand(joint_names_.size(), 0.0, 
       default_stiffness_, default_damping_);
-    cmd_buffer_.set(tmp_cmd_);
+    tmp_cmd_non_rt_ = tmp_cmd_rt_;
+    cmd_buffer_.set(tmp_cmd_rt_);
 
     time_buffer_.set(ros::Time(0.0));
 
@@ -110,21 +111,21 @@ namespace iai_ros_controllers
 
   void MJVIC::stopping(const ros::Time& time)
   {
-    cmd_buffer_.get(tmp_cmd_);
     // zero commands
     for(unsigned int i=0; i<joint_names_.size(); i++)
     {
-      tmp_cmd_.velocities_[i] = 0.0; 
-      tmp_cmd_.stiffnesses_[i] = default_stiffness_; 
-      tmp_cmd_.dampings_[i] = default_damping_; 
+      tmp_cmd_rt_.velocities_[i] = 0.0; 
+      tmp_cmd_rt_.stiffnesses_[i] = default_stiffness_; 
+      tmp_cmd_rt_.dampings_[i] = default_damping_; 
     }
+    cmd_buffer_.set(tmp_cmd_rt_);
 
     // send commands to hardware
     for(unsigned int i=0; i<joint_names_.size(); i++)
     { 
-      joints_[i].setCommand(tmp_cmd_.velocities_[i]); 
-      joints_[i].setStiffness(tmp_cmd_.stiffnesses_[i]); 
-      joints_[i].setDamping(tmp_cmd_.dampings_[i]); 
+      joints_[i].setCommand(tmp_cmd_rt_.velocities_[i]); 
+      joints_[i].setStiffness(tmp_cmd_rt_.stiffnesses_[i]); 
+      joints_[i].setDamping(tmp_cmd_rt_.dampings_[i]); 
     }
 
     ROS_DEBUG_STREAM(nh_.getNamespace() << ": stopped controller.");
@@ -132,9 +133,8 @@ namespace iai_ros_controllers
 
   void MJVIC::update(const ros::Time& time, const ros::Duration& period)
   {
-    // read and write buffers
     time_buffer_.set(time);
-    cmd_buffer_.get(tmp_cmd_);
+    cmd_buffer_.get(tmp_cmd_rt_);
 
     if(watchdog_.isActive(time))
     {
@@ -146,30 +146,32 @@ namespace iai_ros_controllers
       // zero commands
       for(unsigned int i=0; i<joint_names_.size(); i++)
       {
-        tmp_cmd_.velocities_[i] = 0.0; 
-        tmp_cmd_.stiffnesses_[i] = default_stiffness_; 
-        tmp_cmd_.dampings_[i] = default_damping_; 
+        tmp_cmd_rt_.velocities_[i] = 0.0; 
+        tmp_cmd_rt_.stiffnesses_[i] = default_stiffness_; 
+        tmp_cmd_rt_.dampings_[i] = default_damping_; 
       }
+      cmd_buffer_.set(tmp_cmd_rt_);
     }
     
     // send commands to hardware
     for(unsigned int i=0; i<joint_names_.size(); i++)
     { 
-      joints_[i].setCommand(tmp_cmd_.velocities_[i]); 
-      joints_[i].setStiffness(tmp_cmd_.stiffnesses_[i]); 
-      joints_[i].setDamping(tmp_cmd_.dampings_[i]); 
+      joints_[i].setCommand(tmp_cmd_rt_.velocities_[i]); 
+      joints_[i].setStiffness(tmp_cmd_rt_.stiffnesses_[i]); 
+      joints_[i].setDamping(tmp_cmd_rt_.dampings_[i]); 
     }
 
     // publish state
-    if (!state_publisher_period_.isZero() && last_state_publish_time_ + state_publisher_period_ < time)
+    if (!state_publisher_period_.isZero() && 
+        last_state_publish_time_ + state_publisher_period_ < time)
     {
       if (state_pub_.trylock())
       {
         last_state_publish_time_ += state_publisher_period_;
         state_pub_.msg_.header.stamp = time;
-        state_pub_.msg_.velocity = tmp_cmd_.velocities_; 
-        state_pub_.msg_.stiffness = tmp_cmd_.stiffnesses_; 
-        state_pub_.msg_.damping = tmp_cmd_.dampings_; 
+        state_pub_.msg_.velocity = tmp_cmd_rt_.velocities_; 
+        state_pub_.msg_.stiffness = tmp_cmd_rt_.stiffnesses_; 
+        state_pub_.msg_.damping = tmp_cmd_rt_.dampings_; 
         state_pub_.unlockAndPublish();
       }
     }
@@ -179,14 +181,64 @@ namespace iai_ros_controllers
   {
     ROS_DEBUG_STREAM(nh_.getNamespace() << ": Received a command callback.");
 
-    time_buffer_.get(tmp_now_);
+    if(msg->velocity.size() != joint_names_.size())
+    {
+      ROS_ERROR_STREAM(nh_.getNamespace() << ": velocity command of size " <<
+          msg->velocity.size() << ", expected a size of " << joint_names_.size() <<
+          ". Ignoring entire command.");
 
-    if(watchdog_.isActive(tmp_now_))
-      ROS_WARN_STREAM(nh_.getNamespace() << ": watchdog deactivated.");
-    
-    watchdog_.update(tmp_now_);
+      return;
+    }
 
-    //TODO: implement me
+    if(msg->stiffness.size() != joint_names_.size())
+    {
+      ROS_ERROR_STREAM(nh_.getNamespace() << ": stiffness command of size " << 
+          msg->stiffness.size() << ", expected a size of " << joint_names_.size() <<
+          ". Ignoring entire command.");
+
+      return;
+    }
+
+    if(msg->damping.size() != joint_names_.size())
+    {
+      ROS_ERROR_STREAM(nh_.getNamespace() << ": damping command of size " << 
+          msg->damping.size() << ", expected a size of " << joint_names_.size() <<
+          ". Ignoring entire command.");
+
+      return;
+    }
+
+    if(msg->add_torque.size() != 0)
+      ROS_WARN_STREAM(nh_.getNamespace() << ": received a non-empty add_torque" <<
+          " command. Ignoring this part of the command because it is not yet implemented.");
+
+
+    if(msg->velocity.size() == joint_names_.size() && 
+       msg->stiffness.size() == joint_names_.size() &&
+       msg->damping.size() == joint_names_.size())
+    {
+      ROS_DEBUG_STREAM(nh_.getNamespace() << ": received a valid command.");
+
+      for(unsigned int i=0; i<joint_names_.size(); i++)
+      {
+        tmp_cmd_non_rt_.velocities_[i] = msg->velocity[i];
+        tmp_cmd_non_rt_.stiffnesses_[i] = msg->stiffness[i];
+        tmp_cmd_non_rt_.dampings_[i] = msg->damping[i];
+      }
+      cmd_buffer_.set(tmp_cmd_non_rt_);
+
+      time_buffer_.get(tmp_now_);
+      if(watchdog_.isActive(tmp_now_))
+        ROS_WARN_STREAM(nh_.getNamespace() << ": watchdog deactivated.");
+      watchdog_.update(tmp_now_);
+    }
+    else
+    {
+      ROS_ERROR_STREAM(nh_.getNamespace() << ": received an invalid command. " <<
+          "At least one of the sub-commands does not have size " << joint_names_.size()
+          << ". Ignoring entire command. velocity: " << msg->velocity.size() << 
+          " stiffness: " << msg->stiffness.size() << " damping: " << msg->damping.size());
+    }
   }
 
   void MJVIC::initStatePublisher(const ros::NodeHandle& nh)
