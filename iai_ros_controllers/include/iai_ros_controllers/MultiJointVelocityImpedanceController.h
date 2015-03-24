@@ -2,7 +2,7 @@
 #define IAI_ROS_CONTROLLERS_MULTI_JOINT_VELOCITY_IMPEDANCE_COTNROLLER
 
 #include <controller_interface/controller.h>
-#include <hardware_interface/impedance_joint_interface.h>
+#include <iai_hardware_interface/impedance_joint_interface.h>
 #include <realtime_tools/realtime_box.h>
 #include <realtime_tools/realtime_publisher.h>
 #include <ros/ros.h>
