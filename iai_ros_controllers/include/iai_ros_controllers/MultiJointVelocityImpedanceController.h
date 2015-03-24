@@ -34,9 +34,11 @@ namespace iai_ros_controllers
 
       bool init(hardware_interface::EffortImpedanceJointInterface* hw, ros::NodeHandle &n);
       void starting(const ros::Time& time);
+      void stopping(const ros::Time& time);
       void update(const ros::Time& time, const ros::Duration& period);
 
     private:
+      ros::NodeHandle nh_;
       ros::Subscriber cmd_sub_;
 
       realtime_tools::RealtimePublisher<iai_control_msgs::MultiJointVelocityImpedanceState> 
