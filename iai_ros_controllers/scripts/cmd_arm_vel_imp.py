@@ -15,7 +15,7 @@ parser.add_option("-s", "--stiffness", dest="stiffness",
 parser.add_option("-d", "--damping", dest="damping",
                   help="Damping commanded to each joint (DAMPING) Default=%default", metavar="DAMPING", default= 0.7)
 parser.add_option("-t", "--topic", dest="topic",
-                  help="Command topic Default=%default", metavar="TOPIC", default="/right_arm_vel_controller/command")
+                  help="Command topic Default=%default", metavar="TOPIC", default="/r_arm_vel/command")
 
 
 (options, args) = parser.parse_args()
