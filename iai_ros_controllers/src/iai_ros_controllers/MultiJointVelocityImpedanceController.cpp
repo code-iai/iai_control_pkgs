@@ -107,7 +107,24 @@ namespace iai_ros_controllers
 
   void MJVIC::stopping(const ros::Time& time)
   {
-    //TODO: implement me 
+    cmd_buffer_.get(tmp_cmd_);
+    // zero commands
+    for(unsigned int i=0; i<joint_names_.size(); i++)
+    {
+      tmp_cmd_.velocities_[i] = 0.0; 
+      tmp_cmd_.stiffnesses_[i] = default_stiffness_; 
+      tmp_cmd_.dampings_[i] = default_damping_; 
+    }
+
+    // send commands to hardware
+    for(unsigned int i=0; i<joint_names_.size(); i++)
+    { 
+      joints_[i].setCommand(tmp_cmd_.velocities_[i]); 
+      joints_[i].setStiffness(tmp_cmd_.stiffnesses_[i]); 
+      joints_[i].setDamping(tmp_cmd_.dampings_[i]); 
+    }
+
+    ROS_DEBUG_STREAM(nh_.getNamespace() << ": stopped controller.");
   }
 
   void MJVIC::update(const ros::Time& time, const ros::Duration& period)
