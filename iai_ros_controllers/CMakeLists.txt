@@ -21,3 +21,5 @@ add_library(${PROJECT_NAME}
   src/${PROJECT_NAME}/MultiJointVelocityImpedanceController.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+
+add_dependencies(${PROJECT_NAME} ${iai_control_msgs_EXPORTED_TARGETS})
