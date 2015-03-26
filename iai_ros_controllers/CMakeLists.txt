@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(iai_ros_controllers)
 
-find_package(catkin REQUIRED 
+find_package(catkin REQUIRED COMPONENTS
   roscpp 
   controller_interface 
   iai_hardware_interface
@@ -22,4 +22,4 @@ add_library(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 
-add_dependencies(${PROJECT_NAME} ${iai_control_msgs_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
