@@ -31,8 +31,8 @@ def main():
     cmd.header.stamp = rospy.Time.now()
     cmd.velocity = [ 0.0 ] * 7
     cmd.velocity[ int(options.number) ] = float(options.velocity)
-    cmd.stiffness = [ options.stiffness ] * 7
-    cmd.damping = [ options.damping ] * 7
+    cmd.stiffness = [ float(options.stiffness) ] * 7
+    cmd.damping = [ float(options.damping) ] * 7
 
     rospy.loginfo("Publishing to:")
     print options.topic
