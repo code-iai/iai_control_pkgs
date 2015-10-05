@@ -19,7 +19,21 @@ Additional repos required only for this tutorial:
   * https://github.com/cram-code/cl_robotics_libs
   * https://github.com/PR2/pr2_robot
 
-Note, some of these repos are still on rosbuild.
+Example `.rosintall`:
+```
+- git: {local-name: src/iai_control_pkgs, uri: 'git@github.com:code-iai/iai_control_pkgs.git'}
+- git: {local-name: src/iai_common_msgs, uri: 'git@github.com:code-iai/iai_common_msgs.git'}
+- git: {local-name: src/cram_bridge, uri: 'git@github.com:cram-code/cram_bridge.git'}
+- git: {local-name: src/cram_highlevel, uri: 'git@github.com:cram-code/cram_highlevel.git'}
+- git: {local-name: src/cram_physics, uri: 'git@github.com:cram-code/cram_physics.git'}
+- git: {local-name: src/cram_3rdparty, uri: 'git@github.com:cram-code/cram_3rdparty.git'}
+- git: {local-name: src/cram_core, uri: 'git@github.com:cram-code/cram_core.git'}
+- git: {local-name: src/designator_integration_lisp, uri: 'git@github.com:code-iai/designator_integration_lisp.git'}
+- git: {local-name: src/roslisp_common, uri: 'git@github.com:ros/roslisp_common.git'}
+- git: {local-name: src/cram_pr2, uri: 'git@github.com:cram-code/cram_pr2.git'}
+- git: {local-name: src/pr2_robot, uri: 'git@github.com:PR2/pr2_robot.git'}
+- git: {local-name: src/cl_robotics_libs, uri: 'git@github.com:cram-code/cl_robotics_libs.git'}
+```
 
 Build all the catkin packages by running ```catkin_make```
 
