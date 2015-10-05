@@ -32,6 +32,7 @@
   (:use #:common-lisp
         #:roslisp
         #:cl-urdf
+        #:actionlib-lisp
         #:cram-pr2-controllers)
   (:export add-spatula
            remove-spatula
