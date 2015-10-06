@@ -1,5 +1,6 @@
 - git: {local-name: iai_control_pkgs, uri: 'git@github.com:code-iai/iai_control_pkgs.git'}
 - git: {local-name: iai_common_msgs, uri: 'git@github.com:code-iai/iai_common_msgs.git'}
+- git: {local-name: iai_robots, uri: 'git@github.com:code-iai/iai_robots.git'}
 - git: {local-name: cram_bridge, uri: 'git@github.com:cram-code/cram_bridge.git'}
 - git: {local-name: cram_highlevel, uri: 'git@github.com:cram-code/cram_highlevel.git'}
 - git: {local-name: cram_physics, uri: 'git@github.com:cram-code/cram_physics.git'}
