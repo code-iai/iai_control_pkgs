@@ -3,40 +3,15 @@
 
 ## Installation
 
-Checkout the following repos into your workspace:
-  * https://github.com/ros/roslisp_common
-  * https://github.com/code-iai/iai_control_pkgs
-  * https://github.com/code-iai/iai_common_msgs
-  * https://github.com/code-iai/designator_integration_lisp
-  * https://github.com/cram-code/cram_physics
-  * https://github.com/cram-code/cram_highlevel
-  * https://github.com/cram-code/cram_3rdparty
-  * https://github.com/cram-code/cram_core
-  * https://github.com/cram-code/cram_pr2
-  * https://github.com/cram-code/cram_bridge
-
-Additional repos required only for this tutorial:
-  * https://github.com/cram-code/cl_robotics_libs
-  * https://github.com/PR2/pr2_robot
-
-Example `.rosintall`:
-```
-- git: {local-name: src/iai_control_pkgs, uri: 'git@github.com:code-iai/iai_control_pkgs.git'}
-- git: {local-name: src/iai_common_msgs, uri: 'git@github.com:code-iai/iai_common_msgs.git'}
-- git: {local-name: src/cram_bridge, uri: 'git@github.com:cram-code/cram_bridge.git'}
-- git: {local-name: src/cram_highlevel, uri: 'git@github.com:cram-code/cram_highlevel.git'}
-- git: {local-name: src/cram_physics, uri: 'git@github.com:cram-code/cram_physics.git'}
-- git: {local-name: src/cram_3rdparty, uri: 'git@github.com:cram-code/cram_3rdparty.git'}
-- git: {local-name: src/cram_core, uri: 'git@github.com:cram-code/cram_core.git'}
-- git: {local-name: src/designator_integration_lisp, uri: 'git@github.com:code-iai/designator_integration_lisp.git'}
-- git: {local-name: src/roslisp_common, uri: 'git@github.com:ros/roslisp_common.git'}
-- git: {local-name: src/cram_pr2, uri: 'git@github.com:cram-code/cram_pr2.git'}
-- git: {local-name: src/pr2_robot, uri: 'git@github.com:PR2/pr2_robot.git'}
-- git: {local-name: src/cl_robotics_libs, uri: 'git@github.com:cram-code/cl_robotics_libs.git'}
-```
-
-Build all the catkin packages by running ```catkin_make```
-
+Bootstrap a new workspace from the rosinstall file in this package using ```wstool``` and ```catkin_build```:
+* ```cd /tmp```
+* ```git clone git@github.com:code-iai/iai_control_pkgs.git```
+* ```cd && mkdir EMPTY-WS-DIR```
+* ```cd EMPTY-WS-DIR```
+* ```wstool init src /tmp/iai_control_pkgs/urdf_management_tutorial/rosinstall/sample.rosinstall```
+* ```catkin init```
+* ```catkin build urdf_management_tutorial loopback_controller_manager_examples```
+* add ```EMPTY-WS-DIR/devel/setup.bash``` to ```~.bashrc``` and source it
 
 ## Start-up
 Start a roscore in a new terminal:
