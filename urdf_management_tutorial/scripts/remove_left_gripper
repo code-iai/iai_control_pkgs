@@ -1,5 +1,6 @@
 #!/bin/bash
 ROS_SBCL_PATH=`rospack find sbcl`
+URDF_MANAGEMENT_TUT_PATH=`rospack find urdf_management_tutorial`
 export ROSLISP_PATH=`rospack find roslisp`
 if [ -z "$ROSLISP_PATH" ]; then
   echo "roslisp not found"
@@ -11,4 +12,4 @@ else
   SBCL=sbcl
 fi
 
-ROSLISP_CURRENT_PACKAGE=urdf_management_tutorial $SBCL --noinform --end-runtime-options --noprint --no-userinit --disable-debugger --load $ROSLISP_PATH/scripts/roslisp-sbcl-init --load scripts/remove_left_gripper.lisp --end-toplevel-options $*
+ROSLISP_CURRENT_PACKAGE=urdf_management $SBCL --noinform --end-runtime-options --noprint --no-userinit --disable-debugger --load $ROSLISP_PATH/scripts/roslisp-sbcl-init --load $URDF_MANAGEMENT_TUT_PATH/scripts/remove_left_gripper.lisp --end-toplevel-options $*

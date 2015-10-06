@@ -10,15 +10,15 @@
 (PUSH (pathname (format nil "~a~a" (sb-unix::posix-getenv "ROSLISP_PATH") "/asdf/")) ASDF:*CENTRAL-REGISTRY*)
 (DEFUN ROSLISP-DEBUGGER-HOOK (CONDITION ME)
   (DECLARE (IGNORE ME))
-  (FLET ((FAILURE-QUIT (&KEY RECKLESSLY-P)
-           (QUIT :UNIX-STATUS 1 :RECKLESSLY-P RECKLESSLY-P)))
+  (FLET ((FAILURE-QUIT ()
+           (EXIT)))
     (HANDLER-CASE
      (PROGN
       (FORMAT *ERROR-OUTPUT* "~&Roslisp exiting due to condition: ~a~&"
               CONDITION)
       (FINISH-OUTPUT *ERROR-OUTPUT*)
       (FAILURE-QUIT))
-     (CONDITION NIL (FAILURE-QUIT :RECKLESSLY-P T)))))
+     (CONDITION NIL (FAILURE-QUIT)))))
 (UNLESS
     (LET ((V (POSIX-GETENV "ROSLISP_BACKTRACE_ON_ERRORS")))
       (AND (STRINGP V) (> (LENGTH V) 0)))
@@ -41,4 +41,4 @@
    :IF-DOES-NOT-EXIST NIL)
   (FUNCALL
    (SYMBOL-FUNCTION (READ-FROM-STRING "urdf-management:start-urdf-management")))
-  (QUIT))
+  (EXIT))

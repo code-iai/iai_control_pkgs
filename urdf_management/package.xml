@@ -5,7 +5,7 @@
   <description>
     "Manages the joints and links in the urdf."
   </description>
-  
+
   <author email="jannikbu@cs.uni-bremen.de">Jannik Buckelo</author>
   <maintainer email="georg.bartels@cs.uni-bremen.de">Georg Bartels</maintainer>
 
