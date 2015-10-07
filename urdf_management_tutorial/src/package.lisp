@@ -10,8 +10,8 @@
 ;;; notice, this list of conditions and the following disclaimer in the
 ;;; documentation and/or other materials provided with the distribution.
 ;;; * Neither the name of the Institute for Artificial Intelligence/
-;;; Universitaet Bremen nor the names of its contributors may be used to 
-;;; endorse or promote products derived from this software without specific 
+;;; Universitaet Bremen nor the names of its contributors may be used to
+;;; endorse or promote products derived from this software without specific
 ;;; prior written permission.
 ;;;
 ;;; THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -32,9 +32,7 @@
   (:use #:common-lisp
         #:roslisp
         #:cl-urdf
-        #:actionlib-lisp
-        #:cram-pr2-controllers)
+        #:actionlib-lisp)
   (:export add-spatula
            remove-spatula
-           remove-left-gripper
-           move-to-grasp-position))
+           remove-left-gripper))
