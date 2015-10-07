@@ -10,8 +10,8 @@
 ;;; notice, this list of conditions and the following disclaimer in the
 ;;; documentation and/or other materials provided with the distribution.
 ;;; * Neither the name of the Institute for Artificial Intelligence/
-;;; Universitaet Bremen nor the names of its contributors may be used to 
-;;; endorse or promote products derived from this software without specific 
+;;; Universitaet Bremen nor the names of its contributors may be used to
+;;; endorse or promote products derived from this software without specific
 ;;; prior written permission.
 ;;;
 ;;; THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -35,11 +35,9 @@
                :iai_urdf_msgs-srv
                :std_msgs-msg
                :urdf-management
-               :cl-robot-models
-               :cram-pr2-controllers)
+               :cl-robot-models)
   :components
   ((:module "src"
     :components
     ((:file "package")
-     (:file "test-calls" :depends-on ("package"))
-     (:file "test-movements" :depends-on ("package"))))))
+     (:file "test-calls" :depends-on ("package"))))))

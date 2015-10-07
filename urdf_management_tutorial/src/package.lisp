@@ -31,8 +31,7 @@
 (defpackage urdf-management-tutorial
   (:use #:common-lisp
         #:roslisp
-        #:cl-urdf
-        #:actionlib-lisp)
+        #:cl-urdf)
   (:export add-spatula
            remove-spatula
            remove-left-gripper))

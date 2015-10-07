@@ -10,7 +10,7 @@ Bootstrap a new workspace from the rosinstall file in this package using ```wsto
 * ```cd EMPTY-WS-DIR```
 * ```wstool init src /tmp/iai_control_pkgs/urdf_management_tutorial/rosinstall/sample.rosinstall```
 * ```catkin init```
-* ```catkin build urdf_management_tutorial loopback_controller_manager_examples```
+* ```catkin build urdf_management_tutorial loopback_controller_manager_examples loopback_controller_manager iai_pr2_description dynamic_robot_state_publisher dynamic_robot_model_rviz_plugin pr2_robot cl_robot_models```
 * add ```EMPTY-WS-DIR/devel/setup.bash``` to ```~.bashrc``` and source it
 
 ## Start-up
@@ -45,7 +45,7 @@ In rviz you should now be able to see a spatula in the left gripper of the PR2.
 ![rviz view](doc/pr2_spatula_tf.png)
 
 The spatula is now part of the robot description and connected to the left gripper via a fixed joint. To see the arm moving with the spatula in the gripper type:
-  * ```rosrun urdf_management_tutorial move_arm```
+  * ```rosrun urdf_management_tutorial move_arm.py```
 
 ![rviz view](doc/pr2_moved_arm.png)
 

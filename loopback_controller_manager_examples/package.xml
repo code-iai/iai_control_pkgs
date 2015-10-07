@@ -25,4 +25,6 @@
   <run_depend>robot_state_publisher</run_depend>
   <run_depend>pr2_controller_manager</run_depend>
   <run_depend>pr2_head_action</run_depend>
+  <run_depend>iai_pr2_description</run_depend>
+  <run_depend>dynamic_robot_state_publisher</run_depend>
 </package>
