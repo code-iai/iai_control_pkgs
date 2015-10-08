@@ -285,7 +285,12 @@ void LoopbackControllerManager::fini()
 void LoopbackControllerManager::readUrdf()
 {
   std::string urdf_string;
-  rosnode_->getParam("/robot_description", urdf_string);
+
+  ros::NodeHandle private_node("~");
+  if (private_node.getParam("robot_description", urdf_string))
+    ROS_INFO("Loaded robot description from local namespace '%s'.", private_node.getNamespace().c_str());
+  else
+    rosnode_->getParam("/robot_description", urdf_string);
 
   // initialize TiXmlDocument doc with a string
   TiXmlDocument doc;
