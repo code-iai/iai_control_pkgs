@@ -34,7 +34,7 @@ class HumanVisualization
       bodypart_Map_[saphari_msgs::BodyPart::RIGHTHAND] = "right_hand";
       bodypart_Map_[saphari_msgs::BodyPart::LEFTARM] = "left_arm";
       bodypart_Map_[saphari_msgs::BodyPart::LEFTELBOW] = "left_elbow";
-      bodypart_Map_[saphari_msgs::BodyPart::FOREARM] = "forearm";
+      bodypart_Map_[saphari_msgs::BodyPart::LEFTFOREARM] = "left_forearm";
       bodypart_Map_[saphari_msgs::BodyPart::LEFTHAND] = "left_hand";
       bodypart_Map_[saphari_msgs::BodyPart::LEFTBOTTOMFACE] = "left_bottomface"; 
       bodypart_Map_[saphari_msgs::BodyPart::RIGHTBOTTOMFACE] = "right_bottomface";
