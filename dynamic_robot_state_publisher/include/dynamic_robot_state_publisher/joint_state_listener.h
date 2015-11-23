@@ -73,6 +73,7 @@ private:
   ros::Time last_callback_time_;
   std::map<std::string, ros::Time> last_publish_time_;
   MimicMap mimic_;
+  bool publish_static_tf_;
 
 };
 

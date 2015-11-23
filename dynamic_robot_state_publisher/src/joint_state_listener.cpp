@@ -54,6 +54,9 @@ JointStateListener::JointStateListener(const KDL::Tree& tree, const MimicMap& m)
   nh.param(tf_prefix_key, tf_prefix_, std::string(""));
   publish_interval_ = ros::Duration(1.0/std::max(publish_freq,1.0));
 
+  // get whether to publish static-tfs
+  nh.param("publish_static_tf", publish_static_tf_, false);
+
   // subscribe to joint state
   ROS_DEBUG("Subscribing to joint_states.");
   joint_state_sub_ = nh.subscribe("joint_states", 1, &JointStateListener::callbackJointState, this);
@@ -68,7 +71,7 @@ JointStateListener::~JointStateListener()
 
 void JointStateListener::callbackFixedJoint(const ros::TimerEvent& e)
 {
-  state_publisher_.publishFixedTransforms(tf_prefix_);
+  state_publisher_.publishFixedTransforms(tf_prefix_, publish_static_tf_);
 }
 
 void JointStateListener::callbackJointState(const JointStateConstPtr& state)
