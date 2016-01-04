@@ -1,7 +1,0 @@
-<launch>
-  <node pkg="iai_ft_utils" type="wrench_stamper" name="pr2_left_wrench_stamper">
-    <param name="frame_id" value="l_force_torque_link"/>
-    <remap from="~in_topic" to="/ft/l_gripper_motor"/>
-    <remap from="~out_topic" to="/ft/l_gripper_motor_stamped"/>
-  </node>
-</launch>
