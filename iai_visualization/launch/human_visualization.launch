@@ -1,8 +1,0 @@
-<launch>
-  <node pkg="iai_visualization" type="human_visualization" 
-      name="pr2_human_visualization">
-    <param name="human_frame_id" value="/shoulder_kinect_rgb_frame"/>
-    <remap from="~in_topic" to="/saphari/human"/>
-    <remap from="~out_topic" to="/visualization_marker_array"/>
-  </node>
-</launch>

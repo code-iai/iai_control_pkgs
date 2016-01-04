@@ -1,5 +1,0 @@
-For the visualization on a real robot use:
-roslaunch iai_visualization visualization.launch
-
-For the visualization of a rosbag file use (remember to rename the tf topic in the bag file):
-roslaunch iai_visualization visualization_rosbag.launch

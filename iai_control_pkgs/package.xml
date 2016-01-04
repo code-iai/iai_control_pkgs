@@ -17,7 +17,6 @@
   <run_depend>iai_ft_utils</run_depend>
   <run_depend>iai_tf_relay</run_depend>
   <run_depend>iai_velocity_controller_demux</run_depend>
-  <run_depend>iai_visualization</run_depend>
   <run_depend>kdl_arm_kinematics</run_depend>
   <run_depend>loopback_controller_manager</run_depend>
   <run_depend>loopback_controller_manager_examples</run_depend>
