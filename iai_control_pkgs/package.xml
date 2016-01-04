@@ -14,12 +14,18 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   
+  <run_depend>dynamic_robot_model_rviz_plugin</run_depend>
+  <run_depend>dynamic_robot_state_publisher</run_depend>
+  <run_depend>iai_control_utils</run_depend>
+  <run_depend>iai_hardware_interface</run_depend>
+  <run_depend>iai_robot_mechanism_controllers</run_depend>
+  <run_depend>iai_ros_controllers</run_depend>
   <run_depend>iai_velocity_controller_demux</run_depend>
   <run_depend>kdl_arm_kinematics</run_depend>
   <run_depend>loopback_controller_manager</run_depend>
   <run_depend>loopback_controller_manager_examples</run_depend>
-  <run_depend>iai_robot_mechanism_controllers</run_depend>
-  <run_depend>iai_control_utils</run_depend>
+  <run_depend>urdf_management</run_depend>
+  <run_depend>urdf_management_tutorial</run_depend>
 
   <export>
     <metapackage/>
