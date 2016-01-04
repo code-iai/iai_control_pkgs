@@ -1,7 +1,0 @@
-<launch>
-  <node pkg="iai_rosbag_utils" type="equipment_restamper" 
-      name="pr2_equipment_restamper">
-    <remap from="~in_topic" to="/detect_equipment"/>
-    <remap from="~out_topic" to="/detect_equipment/restamped"/>
-  </node>
-</launch>

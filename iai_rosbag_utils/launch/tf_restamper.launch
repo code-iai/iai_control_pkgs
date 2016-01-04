@@ -1,7 +1,0 @@
-<launch>
-  <node pkg="iai_rosbag_utils" type="tf_restamper" 
-      name="pr2_tf_restamper">
-    <remap from="~in_topic" to="/tf_real"/>
-    <remap from="~out_topic" to="/tf"/>
-  </node>
-</launch>

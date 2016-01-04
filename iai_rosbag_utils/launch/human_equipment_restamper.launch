@@ -1,5 +1,0 @@
-<launch>
-  <include file="$(find iai_rosbag_utils)/launch/human_restamper.launch"/>
-  <include file="$(find iai_rosbag_utils)/launch/equipment_restamper.launch"/>
-  <include file="$(find iai_rosbag_utils)/launch/tf_restamper.launch"/>
-</launch>
