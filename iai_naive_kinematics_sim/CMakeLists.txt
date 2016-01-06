@@ -3,6 +3,7 @@ project(iai_naive_kinematics_sim)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  urdf
   sensor_msgs
   std_msgs
 )
@@ -87,7 +88,9 @@ set(TEST_SRCS
   test/${PROJECT_NAME}/main.cpp
   test/${PROJECT_NAME}/simulator.cpp)
 
-catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SRCS})
+catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SRCS}
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test_data)
+
 if(TARGET ${PROJECT_NAME}-test)
   target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES})
 endif()

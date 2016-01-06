@@ -6,54 +6,35 @@ class SimulatorTest : public ::testing::Test
    protected:
     virtual void SetUp()
     {
-      joint_names_.clear();
-      joint_names_.push_back("joint0");
-      joint_names_.push_back("joint1");
-
       dt_ = 0.5;
       now_ = ros::Time(1.1);
 
-      state_.name = joint_names_;
-      state_.position.push_back(0.1);
-      state_.position.push_back(0.2);
-      state_.velocity.push_back(1.0);
-      state_.velocity.push_back(2.0);
-      state_.effort.push_back(0.0);
-      state_.effort.push_back(0.0);
+      iai_naive_kinematics_sim::pushBackJointState(zero_state_, "joint1", 0.0, 0.0, 0.0);
+      iai_naive_kinematics_sim::pushBackJointState(zero_state_, "joint2", 0.0, 0.0, 0.0);
 
-      state2_.name = joint_names_;
-      state2_.position.push_back(state_.position[0] + state_.velocity[0] * dt_);
-      state2_.position.push_back(state_.position[1] + state_.velocity[1] * dt_);
-      state2_.velocity.push_back(state_.velocity[0]);
-      state2_.velocity.push_back(state_.velocity[1]);
-      state2_.effort.push_back(0.0);
-      state2_.effort.push_back(0.0);
-      state2_.header.stamp = now_;
-      state2_.header.seq = 1;
+      iai_naive_kinematics_sim::pushBackJointState(state1_, "joint1", 1.1, 1.2, 1.3);
+      iai_naive_kinematics_sim::pushBackJointState(state1_, "joint2", -0.01, -0.02, -0.03);
 
-      state3_.name = joint_names_;
-      state3_.position.push_back(0.0);
-      state3_.position.push_back(0.0);
-      state3_.velocity.push_back(0.0);
-      state3_.velocity.push_back(1.3);
-      state3_.effort.push_back(0.0);
-      state3_.effort.push_back(0.0);
+      iai_naive_kinematics_sim::pushBackJointState(state2_, "joint1", 0.0, 0.0, 0.0);
+      iai_naive_kinematics_sim::pushBackJointState(state2_, "joint2", 0.1, 0.2, 0.3);
 
-      state4_.name = joint_names_;
-      state4_.position.push_back(0.0);
-      state4_.position.push_back(0.0);
-      state4_.velocity.push_back(1.1);
-      state4_.velocity.push_back(1.3);
-      state4_.effort.push_back(0.0);
-      state4_.effort.push_back(0.0);
+      iai_naive_kinematics_sim::pushBackJointState(sub_state2_, "joint2", 0.1, 0.2, 0.3);
 
-      zero_state_ = makeZeroJointState(joint_names_);
+      iai_naive_kinematics_sim::pushBackJointState(state3_, "joint1", 1.7, 1.2, 1.3);
+      iai_naive_kinematics_sim::pushBackJointState(state3_, "joint2", -0.02, -0.02, -0.03);
+      state3_.header.seq = 1;
+      state3_.header.stamp = now_;
+
+      iai_naive_kinematics_sim::pushBackJointState(state4_, "joint1", 0.0, 0.0, 0.0);
+      iai_naive_kinematics_sim::pushBackJointState(state4_, "joint2", 0.0, 7.75, 0.0);
+
+      model_.initFile("test_robot.urdf");
     }
 
     virtual void TearDown(){}
 
-    std::vector<std::string> joint_names_;
-    sensor_msgs::JointState state_, state2_, state3_, state4_, zero_state_;
+    urdf::Model model_;
+    sensor_msgs::JointState state1_, sub_state2_, state2_, state3_, state4_, zero_state_;
     double dt_;
     ros::Time now_;
 
@@ -80,67 +61,62 @@ class SimulatorTest : public ::testing::Test
         EXPECT_DOUBLE_EQ(a.effort[i], b.effort[i]);
       }
     }
-
-    sensor_msgs::JointState makeZeroJointState(const std::vector<std::string>& joint_names) const
-    {
-      sensor_msgs::JointState result;
-      result.name = joint_names;
-
-      for(size_t i=0; i<joint_names.size(); ++i)
-      {
-        result.position.push_back(0.0);
-        result.velocity.push_back(0.0);
-        result.effort.push_back(0.0);
-      }
-
-      return result;
-    }
 };
 
 TEST_F(SimulatorTest, SaneConstructor)
 {
   iai_naive_kinematics_sim::SimulatorVelocityResolved sim;
-  EXPECT_EQ(0, sim.size());
 
-  sensor_msgs::JointState state = sim.getJointState();
+  EXPECT_EQ(0, sim.size());
   checkJointStatesEquality(sim.getJointState(), sensor_msgs::JointState());
 }
 
-TEST_F(SimulatorTest, InitFromJointNames)
+TEST_F(SimulatorTest, Init)
 {
   iai_naive_kinematics_sim::SimulatorVelocityResolved sim;
-  sim.init(joint_names_);
+  ASSERT_NO_THROW(sim.init(model_));
 
-  EXPECT_EQ(joint_names_.size(), sim.size());
+  EXPECT_EQ(zero_state_.name.size(), sim.size());
   checkJointStatesEquality(sim.getJointState(), zero_state_);
 }
 
-TEST_F(SimulatorTest, InitFromJointState)
+TEST_F(SimulatorTest, setSubJointState1)
 {
   iai_naive_kinematics_sim::SimulatorVelocityResolved sim;
-  sim.init(state_);
+  ASSERT_NO_THROW(sim.init(model_));
+  ASSERT_NO_THROW(sim.setSubJointState(state1_));
 
-  EXPECT_EQ(state_.name.size(), sim.size());
-  checkJointStatesEquality(sim.getJointState(), state_);
+  EXPECT_EQ(state1_.name.size(), sim.size());
+  checkJointStatesEquality(sim.getJointState(), state1_);
+}
+
+TEST_F(SimulatorTest, setSubJointState2)
+{
+  iai_naive_kinematics_sim::SimulatorVelocityResolved sim;
+  ASSERT_NO_THROW(sim.init(model_));
+  ASSERT_NO_THROW(sim.setSubJointState(sub_state2_));
+
+  EXPECT_EQ(state1_.name.size(), sim.size());
+  checkJointStatesEquality(sim.getJointState(), state2_);
 }
 
 TEST_F(SimulatorTest, Update)
 {
   iai_naive_kinematics_sim::SimulatorVelocityResolved sim;
-  sim.init(state_);
-  
+  ASSERT_NO_THROW(sim.init(model_));
+  ASSERT_NO_THROW(sim.setSubJointState(state1_));
   ASSERT_NO_THROW(sim.update(now_, dt_));
-  checkJointStatesEquality(sim.getJointState(), state2_);
+
+  EXPECT_EQ(state1_.name.size(), sim.size());
+  checkJointStatesEquality(sim.getJointState(), state3_);
 }
 
 TEST_F(SimulatorTest, SetNextJointVelocity)
 {
   iai_naive_kinematics_sim::SimulatorVelocityResolved sim;
-  sim.init(joint_names_);
+  ASSERT_NO_THROW(sim.init(model_));
+  ASSERT_NO_THROW(sim.setNextJointVelocity("joint2", 7.75));
 
-  ASSERT_NO_THROW(sim.setNextJointVelocity("joint1", 1.3));
-  checkJointStatesEquality(sim.getJointState(), state3_);
- 
-  ASSERT_NO_THROW(sim.setNextJointVelocity("joint0", 1.1));
+  EXPECT_EQ(state1_.name.size(), sim.size());
   checkJointStatesEquality(sim.getJointState(), state4_);
 }
