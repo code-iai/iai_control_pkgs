@@ -67,6 +67,12 @@ namespace iai_naive_kinematics_sim
             type == urdf::Joint::PRISMATIC);
   }
 
+  inline bool modelHasMovableJoint(const urdf::Model& model, const std::string& name)
+  {
+    boost::shared_ptr<const urdf::Joint> joint = model.getJoint(name);
+    return joint.get() && isMovingJoint(joint->type);
+  }
+
   inline std::map<std::string, size_t> makeJointIndexMap(const std::vector<std::string>& joint_names)
   {
     std::map<std::string, size_t> map;
