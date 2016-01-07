@@ -28,13 +28,24 @@ class SimulatorTest : public ::testing::Test
       iai_naive_kinematics_sim::pushBackJointState(state4_, "joint1", 0.0, 0.0, 0.0);
       iai_naive_kinematics_sim::pushBackJointState(state4_, "joint2", 0.0, 7.75, 0.0);
 
+      iai_naive_kinematics_sim::pushBackJointState(state5_, "joint1", 3.007, 0.0, 1.3);
+      iai_naive_kinematics_sim::pushBackJointState(state5_, "joint2", -0.05, -0.02, -0.03);
+      state5_.header.seq = 1;
+      state5_.header.stamp = now_;
+
+      iai_naive_kinematics_sim::pushBackJointState(state6_, "joint1", 3.007, 0.0, 1.3);
+      iai_naive_kinematics_sim::pushBackJointState(state6_, "joint2", -0.1, 0.0, -0.03);
+      state6_.header.seq = 2;
+      state6_.header.stamp = now_;
+
       model_.initFile("test_robot.urdf");
     }
 
     virtual void TearDown(){}
 
     urdf::Model model_;
-    sensor_msgs::JointState state1_, sub_state2_, state2_, state3_, state4_, zero_state_;
+    sensor_msgs::JointState state1_, sub_state2_, state2_, state3_, state4_, 
+      state5_, state6_, zero_state_;
     double dt_;
     ros::Time now_;
 
@@ -119,4 +130,20 @@ TEST_F(SimulatorTest, SetNextJointVelocity)
 
   EXPECT_EQ(state1_.name.size(), sim.size());
   checkJointStatesEquality(sim.getJointState(), state4_);
+}
+
+TEST_F(SimulatorTest, JointPositionLimits)
+{
+  iai_naive_kinematics_sim::SimulatorVelocityResolved sim;
+  ASSERT_NO_THROW(sim.init(model_));
+  ASSERT_NO_THROW(sim.setSubJointState(state1_));
+  ASSERT_NO_THROW(sim.update(now_, 4*dt_));
+
+  EXPECT_EQ(state1_.name.size(), sim.size());
+  checkJointStatesEquality(sim.getJointState(), state5_);
+
+  ASSERT_NO_THROW(sim.update(now_, 6*dt_));
+
+  EXPECT_EQ(state1_.name.size(), sim.size());
+  checkJointStatesEquality(sim.getJointState(), state6_);
 }

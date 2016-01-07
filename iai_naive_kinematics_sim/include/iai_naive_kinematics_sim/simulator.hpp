@@ -29,12 +29,14 @@ namespace iai_naive_kinematics_sim
       {
         // TODO: throw exceptions
         assert(dt > 0);
+        assert(state_.name.size() == state_.position.size());
         assert(state_.position.size() == state_.velocity.size());
 
         for(size_t i=0; i<state_.position.size(); ++i)
+        {
           state_.position[i] += state_.velocity[i] * dt;
-
-        // TODO: enforce position limits
+          enforceJointLimits(state_.name[i]);
+        } 
 
         state_.header.stamp = now;
         state_.header.seq++;
@@ -79,6 +81,37 @@ namespace iai_naive_kinematics_sim
         assert(it!=index_map_.end());
 
         return it->second;
+      }
+
+      boost::shared_ptr<urdf::Joint> getJoint(const std::string& name) const
+      {
+        std::map<std::string, boost::shared_ptr<urdf::Joint> >::const_iterator it =
+          model_.joints_.find(name);
+
+        // TODO: throw exception
+        assert(it != model_.joints_.end());
+
+        return it->second;
+      }
+
+      void enforceJointLimits(const std::string& name)
+      {
+        boost::shared_ptr<urdf::Joint> joint = getJoint(name);
+
+        if ((joint->type == urdf::Joint::REVOLUTE || joint->type == urdf::Joint::PRISMATIC) &&
+            joint->limits.get())
+        {
+          // joint should be limited, and has limits specified
+          
+          size_t index = getJointIndex(name);
+          if(state_.position[index] < joint->limits->lower ||
+             state_.position[index] > joint->limits->upper)
+          {
+            state_.position[index] = 
+              std::max(joint->limits->lower, std::min(state_.position[index], joint->limits->upper));
+            state_.velocity[index] = 0.0;
+          }
+        }
       }
   };
 }
