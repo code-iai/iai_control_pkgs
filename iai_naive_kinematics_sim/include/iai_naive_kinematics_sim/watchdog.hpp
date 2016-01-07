@@ -9,6 +9,7 @@ namespace iai_naive_kinematics_sim
   {
     public:
       Watchdog() : command_(0.0), period_(ros::Duration(0.0)), last_update_(ros::Time(0.0)) {}
+      Watchdog(const ros::Duration& period) : command_(0.0), period_(period), last_update_(ros::Time(0.0)) {}
       ~Watchdog() {}
 
       const ros::Duration& getPeriod() const

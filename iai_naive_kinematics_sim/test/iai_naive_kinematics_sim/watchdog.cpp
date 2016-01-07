@@ -22,6 +22,11 @@ TEST_F(WatchdogTest, SaneConstructor)
   checkWatchdogContent(dog, 0.0, 0.0, 0.0);
 }
 
+TEST_F(WatchdogTest, AlternativeConstructor)
+{
+  iai_naive_kinematics_sim::Watchdog dog(ros::Duration(1.1));
+  checkWatchdogContent(dog, 1.1, 0.0, 0.0);
+}
 TEST_F(WatchdogTest, BarkTest)
 {
   iai_naive_kinematics_sim::Watchdog dog;
