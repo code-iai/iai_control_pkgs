@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <iai_naive_kinematics_sim/simulator.hpp>
+#include <iai_naive_kinematics_sim/iai_naive_kinematics_sim.hpp>
 
 class SimulatorTest : public ::testing::Test
 {
