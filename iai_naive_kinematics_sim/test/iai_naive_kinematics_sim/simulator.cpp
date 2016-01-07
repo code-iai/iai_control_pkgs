@@ -147,3 +147,14 @@ TEST_F(SimulatorTest, JointPositionLimits)
   EXPECT_EQ(state1_.name.size(), sim.size());
   checkJointStatesEquality(sim.getJointState(), state6_);
 }
+
+TEST_F(SimulatorTest, HasJoint)
+{
+  iai_naive_kinematics_sim::SimulatorVelocityResolved sim;
+  ASSERT_NO_THROW(sim.init(model_));
+
+  EXPECT_FALSE(sim.hasJoint("joint0"));
+  EXPECT_TRUE(sim.hasJoint("joint1"));
+  EXPECT_TRUE(sim.hasJoint("joint2"));
+  EXPECT_FALSE(sim.hasJoint("joint3"));
+}

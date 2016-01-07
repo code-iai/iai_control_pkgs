@@ -47,6 +47,13 @@ namespace iai_naive_kinematics_sim
         return state_;
       }
 
+      bool hasJoint(const std::string& name) const
+      {
+        std::map<std::string, size_t>::const_iterator it = index_map_.find(name);
+        
+        return it!=index_map_.end();
+      }
+
       void setSubJointState(const sensor_msgs::JointState& state)
       {
         // TODO: throw exceptions
