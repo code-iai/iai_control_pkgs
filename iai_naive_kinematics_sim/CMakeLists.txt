@@ -5,49 +5,15 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   urdf
   sensor_msgs
-  std_msgs
-)
+  std_msgs)
 
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES iai_naive_kinematics_sim
-#  CATKIN_DEPENDS roscpp sensor_msgs std_msgs
-#  DEPENDS system_lib
-)
+  CATKIN_DEPENDS roscpp urdf sensor_msgs std_msgs)
 
-###########
-## Build ##
-###########
-
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
-# include_directories(include)
 include_directories(
   include
-  ${catkin_INCLUDE_DIRS}
-)
-
-## Declare a C++ library
-# add_library(iai_naive_kinematics_sim
-#   src/${PROJECT_NAME}/iai_naive_kinematics_sim.cpp
-# )
-
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(iai_naive_kinematics_sim ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Declare a C++ executable
-# add_executable(iai_naive_kinematics_sim_node src/iai_naive_kinematics_sim_node.cpp)
-
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(iai_naive_kinematics_sim_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(iai_naive_kinematics_sim_node
-#   ${catkin_LIBRARIES}
-# )
+  ${catkin_INCLUDE_DIRS})
 
 #############
 ## Install ##
