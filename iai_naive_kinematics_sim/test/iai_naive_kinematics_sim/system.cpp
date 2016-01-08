@@ -16,7 +16,10 @@ class SystemTest : public ::testing::Test
       iai_naive_kinematics_sim::pushBackJointState(state2_, "joint2", 0.0025, 0.05, 0.0);
       state2_.header.stamp = ros::Time(0.1);
       state2_.header.seq = 1;
-    }
+
+      iai_naive_kinematics_sim::pushBackJointState(state3_, "joint1", 0.1, 0.2, 0.3);
+      iai_naive_kinematics_sim::pushBackJointState(state3_, "joint2", -0.001, -0.002, -0.003);
+     }
 
     virtual void TearDown(){}
 
@@ -46,7 +49,7 @@ class SystemTest : public ::testing::Test
 
     std::vector<std::string> controlled_joints_;
     urdf::Model model_;
-    sensor_msgs::JointState state1_, state2_;
+    sensor_msgs::JointState state1_, state2_, state3_;
 };
 
 TEST_F(SystemTest, SaneConstructor)
@@ -69,9 +72,6 @@ TEST_F(SystemTest, Init)
   EXPECT_EQ(ros::Duration(0.1), sys.getWatchdogs().begin()->second.getPeriod());
   EXPECT_DOUBLE_EQ(0.0, sys.getWatchdogs().begin()->second.getCommand());
   EXPECT_EQ(ros::Time(0.0), sys.getWatchdogs().begin()->second.getLastUpdateTime());
-
-
-
 }
 
 TEST_F(SystemTest, SetVelocityCommand)
@@ -84,4 +84,13 @@ TEST_F(SystemTest, SetVelocityCommand)
 
   ASSERT_NO_THROW(sys.update(ros::Time(0.1), 0.05));
   checkJointStatesEquality(state2_, sys.getJointState());
+}
+
+TEST_F(SystemTest, SetSubJointState)
+{
+  iai_naive_kinematics_sim::System sys;
+  ASSERT_NO_THROW(sys.init(model_, controlled_joints_, 0.1));
+  ASSERT_NO_THROW(sys.setSubJointState(state3_));
+
+  checkJointStatesEquality(state3_, sys.getJointState());
 }

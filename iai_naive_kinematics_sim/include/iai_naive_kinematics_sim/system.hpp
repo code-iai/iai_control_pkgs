@@ -31,6 +31,11 @@ namespace iai_naive_kinematics_sim
         return sim_.getJointState();
       }
 
+      void setSubJointState(const sensor_msgs::JointState& state)
+      {
+        sim_.setSubJointState(state);
+      }
+
       void update(const ros::Time& now, double dt)
       {
         for(std::map<std::string, Watchdog>::iterator it=dogs_.begin(); it!=dogs_.end(); ++it)
