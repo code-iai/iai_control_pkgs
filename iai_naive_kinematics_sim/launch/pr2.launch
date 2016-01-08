@@ -1,0 +1,15 @@
+<launch>
+
+  <param name="robot_description"
+    textfile="$(find iai_naive_kinematics_sim)/test_data/pr2.urdf" />
+
+  <node pkg="iai_naive_kinematics_sim" type="velocity_resolved_sim" 
+        name="velocity_resolved_sim" output="screen">
+    <rosparam param="controlled_joints"
+      file="$(find iai_naive_kinematics_sim)/test_data/pr2_controlled_joints.yaml" />
+  </node>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher"
+        name="robot_state_publisher" />
+
+</launch>
