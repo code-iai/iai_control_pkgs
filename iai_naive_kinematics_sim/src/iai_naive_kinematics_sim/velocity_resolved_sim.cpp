@@ -51,7 +51,7 @@ class SimulatorNode
     urdf::Model readUrdf() const
     {
       std::string urdf_descr_;
-      assert(nh_.getParam("robot_description", urdf_descr_));
+      assert(nh_.getParam("/robot_description", urdf_descr_));
       urdf::Model model;
       assert(model.initString(urdf_descr_));
       return model;
@@ -111,7 +111,7 @@ class SimulatorNode
       {
         boost::function<void(const std_msgs::Float64::ConstPtr&)> f =
           boost::bind(&SimulatorNode::callback, this, _1, controlled_joints[i]);
-        std::string topic = "/" + controlled_joints[i] + "_vel_cmd";
+        std::string topic = "/" + controlled_joints[i] + "/vel_cmd";
         ros::Subscriber sub = nh_.subscribe(topic, 1, f);
         subs_.push_back(sub);
       }

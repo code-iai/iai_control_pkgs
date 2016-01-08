@@ -1,20 +1,17 @@
 <launch>
 
+  <param name="robot_description"
+    textfile="$(find iai_naive_kinematics_sim)/test_data/test_robot.urdf" />
+
   <node pkg="iai_naive_kinematics_sim" type="velocity_resolved_sim" 
         name="velocity_resolved_sim" output="screen">
-    <param name="robot_description" 
-      textfile="$(find iai_naive_kinematics_sim)/test_data/test_robot.urdf" />
     <rosparam param="controlled_joints"
       file="$(find iai_naive_kinematics_sim)/test_data/controlled_joints.yaml" />
     <rosparam param="start_config"
       file="$(find iai_naive_kinematics_sim)/test_data/start_config.yaml" />
     <param name="sim_frequency" value="100.0"/>
     <param name="watchdog_period" value="0.2"/>
-    <remap from="~joint_states" to="/joint_states"/>
   </node>
-
-  <param name="robot_description"
-    textfile="$(find iai_naive_kinematics_sim)/test_data/test_robot.urdf" />
 
   <node pkg="robot_state_publisher" type="robot_state_publisher"
         name="robot_state_publisher" />
