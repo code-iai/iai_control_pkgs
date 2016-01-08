@@ -42,7 +42,7 @@ class SimulatorNode
       sim_.init(model, controlled_joints, watchdog_period);
       sim_.setSubJointState(joint_state);
 
-      for(size_t i=0; i<controlled_joints[i].size(); ++i)
+      for(size_t i=0; i<controlled_joints.size(); ++i)
       {
         boost::function<void(const std_msgs::Float64::ConstPtr&)> f =
           boost::bind(&SimulatorNode::callback, this, _1, controlled_joints[i]);
