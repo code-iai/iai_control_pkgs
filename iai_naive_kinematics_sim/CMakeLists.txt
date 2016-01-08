@@ -87,6 +87,7 @@ include_directories(
 set(TEST_SRCS
   test/${PROJECT_NAME}/main.cpp
   test/${PROJECT_NAME}/simulator.cpp
+  test/${PROJECT_NAME}/system.cpp
   test/${PROJECT_NAME}/watchdog.cpp)
 
 catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SRCS}
