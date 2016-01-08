@@ -15,6 +15,14 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS})
 
+add_executable(velocity_resolved_sim 
+  src/${PROJECT_NAME}/velocity_resolved_sim.cpp)
+add_dependencies(velocity_resolved_sim 
+  ${${PROJECT_NAME}_EXPORTED_TARGETS} 
+  ${catkin_EXPORTED_TARGETS})
+target_link_libraries(velocity_resolved_sim
+  ${catkin_LIBRARIES})
+
 #############
 ## Install ##
 #############
