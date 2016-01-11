@@ -3,13 +3,15 @@
   <name>iai_naive_kinematics_sim</name>
   <version>0.0.1</version>
   <description>
-	  A set of naive robot kinematics simulators for ROS. Main intention was light-weight.
+    A set of naive robot kinematics simulators for ROS. Main design goal: Providing 
+    a ROS-based kinematics simulator for early-stage development of kinematics algorithms
+    that is light-weight in comparison to full-scale simulators, e.g. Gazebo.
   </description>
 
   <maintainer email="georg.bartels@cs.uni-bremen.de">Georg Bartels</maintainer>
   <author email="georg.bartels@cs.uni-bremen.de">Georg Bartels</author>
 
-  <license>TODO</license>
+  <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <depend>roscpp</depend>
