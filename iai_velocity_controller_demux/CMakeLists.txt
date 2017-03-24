@@ -1,4 +1,6 @@
 project(iai_velocity_controller_demux)
+cmake_minimum_required(VERSION 2.8)
+
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
