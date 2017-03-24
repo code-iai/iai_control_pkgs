@@ -208,9 +208,9 @@ namespace iai_ros_controllers
       return;
     }
 
-    if(msg->add_torque.size() != 0)
-      ROS_WARN_STREAM(nh_.getNamespace() << ": received a non-empty add_torque" <<
-          " command. Ignoring this part of the command because it is not yet implemented.");
+    //if(msg->add_torque.size() != 0)
+    //  ROS_WARN_STREAM(nh_.getNamespace() << ": received a non-empty add_torque" <<
+    //      " command. Ignoring this part of the command because it is not yet implemented.");
 
 
     if(msg->velocity.size() == joint_names_.size() && 
