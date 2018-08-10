@@ -1,11 +1,14 @@
 #ifndef DYNAMIC_ROBOT_MODEL_H
 #define DYNAMIC_ROBOT_MODEL_H
 
+//The following ifndef should fix usr/include/boost/type_traits/detail/has_binary_operator.hp:50: Parse error at "BOOST_JOIN"
+// Reference: https://github.com/ros-planning/moveit_ros/issues/653
+#ifndef Q_MOC_RUN 
 #include <ros/ros.h>
 #include "std_msgs/String.h"
 #include "rviz/robot/robot.h"
 #include "rviz/display.h"
-
+#endif
 
 namespace Ogre
 {

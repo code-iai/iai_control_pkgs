@@ -27,6 +27,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+//The following ifndef should fix usr/include/boost/type_traits/detail/has_binary_operator.hp:50: Parse error at "BOOST_JOIN"
+// Reference: https://github.com/ros-planning/moveit_ros/issues/653
+#ifndef Q_MOC_RUN
 #include <ros/ros.h>
 #include "std_msgs/String.h"
 #include <urdf/model.h>
@@ -39,7 +42,7 @@
 #include "rviz/robot/robot.h"
 #include "rviz/display_context.h"
 #include "rviz/robot/tf_link_updater.h"
-
+#endif
 #include "dynamic_robot_model.h"
 
 
